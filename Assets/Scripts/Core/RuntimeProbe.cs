@@ -21,6 +21,7 @@ namespace VeilHouse {
    yield return new WaitForSeconds(2);
    if(mode=="menu"){yield return Capture("menu");Finish();yield break;}
    if(mode=="gallery") {S.StartTraining(PlayerRole.Ghost);yield return new WaitForSeconds(3);yield return Gallery();Finish();yield break;}
+   if(mode=="objects") {S.StartTraining(PlayerRole.Ghost);yield return new WaitForSeconds(3);yield return ObjectDetails();Finish();yield break;}
    if(mode=="walk") {S.StartTraining(PlayerRole.Detective);yield return new WaitForSeconds(2);yield return WalkHouse();Finish();yield break;}
    if(mode=="ghost"||mode=="detective"){
     S.StartTraining(mode=="ghost"?PlayerRole.Ghost:PlayerRole.Detective);yield return new WaitForSeconds(3);D.Controller.Teleport(new Vector3(-8,.15f,-7),35);yield return new WaitForSeconds(1);yield return Capture(mode);D.UI.JournalOpen=true;yield return Capture(mode+"-journal");Check(S.Phase==GamePhase.Investigation,"Training started");Check(HauntedObject.All.Count>50,"Furnished interactive house");Finish();yield break;
@@ -70,7 +71,7 @@ namespace VeilHouse {
   }
   IEnumerator Gallery(){
    D.UI.enabled=false;D.Controller.enabled=false;Cursor.lockState=CursorLockMode.None;
-   string[] surfaces={"SmokedOak","Parquet","Plaster","TealPaint","Wallpaper","Tile","BurgundyFabric","Linen","Leather","Brass","PersianRug"};
+   string[] surfaces={"SmokedOak","Parquet","Plaster","TealPaint","Wallpaper","Tile","BurgundyFabric","Linen","Leather","Brass","PersianRug","Porcelain","BlueGlaze","Enamel","Iron","Rubber","MotorPaint","Marble","Limestone","HearthBrick","Wax","Paper","Soil","Bark","Leaf","Towel","Speaker","GlassPatina","Copper","Chrome","MirrorSilver"};
    foreach(var id in surfaces){var m=Resources.Load<Material>("Materials/"+id);Check(m&&m.mainTexture&&m.mainTexture.width==2048&&m.GetTexture("_BumpMap")&&m.GetTexture("_MetallicGlossMap")&&m.IsKeywordEnabled("_NORMALMAP"),"Packaged PBR surface "+id);}
    Check(HauntedObject.All.Count==129,"Material update preserves 129 interactive objects");
    string[] furniture={"Sofa","Armchair","DiningChair","Table_2500_1240_490","Bookcase_2600"};
@@ -84,6 +85,43 @@ namespace VeilHouse {
    string[] closeNames={"wallpaper","upholstery","parquet","tile"};
    for(int i=0;i<closePositions.Length;i++){D.View.transform.position=closePositions[i];D.View.transform.LookAt(closeTargets[i]);yield return new WaitForSeconds(.5f);yield return Capture("material-"+closeNames[i]);}
    var root=new GameObject("Avatar visual check");root.transform.position=new Vector3(0,0,-3);var a=DetectiveAvatar.Create(root.transform,1);Check(a.HasHumanoidRig,"Valid humanoid avatar");D.View.transform.position=new Vector3(0,1.15f,0);D.View.transform.LookAt(root.transform.position+Vector3.up*.95f);root.transform.rotation=Quaternion.Euler(0,0,0);a.Animate(0,false,false);yield return new WaitForSeconds(.5f);yield return Capture("detective-model");
+  }
+  IEnumerator ObjectDetails(){
+   D.UI.enabled=false;D.Controller.enabled=false;Cursor.lockState=CursorLockMode.None;
+   var prefabs=Resources.LoadAll<GameObject>("Props/Prefabs");
+   Check(prefabs.Length==77,"All 77 authored object prefabs packaged");
+   Check(DetailedObjects.ReplacedCount>=220,"More than 220 scene objects upgraded");
+   Check(HauntedObject.All.Count==129,"129 interaction ids preserved");
+   foreach(var p in prefabs){
+    var meshes=p.GetComponentsInChildren<MeshFilter>();
+    Check(meshes.Length>0&&meshes.All(m=>m.sharedMesh&&m.sharedMesh.isReadable&&m.sharedMesh.uv.Length>0),"Readable textured prefab "+p.name);
+   }
+   foreach(var h in HauntedObject.All.Values.Where(h=>h.Kind==HauntKind.Prop))Check(h.GetComponentsInChildren<Transform>(true).Any(t=>t.name.StartsWith("Detailed / ")),"Physical object model "+h.DisplayName+" #"+h.Id);
+   var interactive=HauntedObject.All.Values.Where(h=>h.Kind!=HauntKind.Prop).ToArray();
+   foreach(var h in interactive)h.ServerAct(new InteractionRequest{objectId=h.Id,action="open"});
+   yield return new WaitForSeconds(2);
+   foreach(var h in interactive){
+    if(h.Hinge)Check(Quaternion.Angle(h.Hinge.localRotation,Quaternion.Euler(0,h.OpenAngle,0))<1,"Hinge opens "+h.DisplayName+" #"+h.Id);
+    if(h.Kind==HauntKind.Light)Check(h.Lamps.All(l=>l.enabled)&&h.EmissiveParts.Length>0&&h.EmissiveParts.All(r=>r.sharedMaterial.IsKeywordEnabled("_EMISSION")),"Lamp emits and switches "+h.DisplayName+" #"+h.Id);
+    if(h.ActiveVisual)Check(h.ActiveVisual.activeSelf&&h.ActiveVisual.GetComponent<Renderer>().enabled,"Active visual opens "+h.DisplayName+" #"+h.Id);
+   }
+   var pos=new[]{new Vector3(-5.9f,1.20f,-7.1f),new Vector3(-8.1f,1.85f,-4.25f),new Vector3(-9.2f,2.1f,1.8f),new Vector3(-10.1f,1.6f,1.1f),new Vector3(-5.6f,1.8f,6.8f),new Vector3(9.1f,1.8f,-.8f),new Vector3(8.5f,1.9f,-2),new Vector3(7,1.65f,-7.1f),new Vector3(0,1.8f,7.8f),new Vector3(-9,1.8f,-8.4f)};
+   var target=new[]{new Vector3(-6.9f,.62f,-6.2f),new Vector3(-7,1.2f,-2.4f),new Vector3(-7.9f,1.3f,3.5f),new Vector3(-11.3f,.90f,1.8f),new Vector3(-8.1f,1.0f,7.5f),new Vector3(11.1f,.65f,-2.4f),new Vector3(9.3f,1.8f,-3.84f),new Vector3(7.5f,1,-8.7f),new Vector3(.9f,1.8f,10.5f),new Vector3(-11.8f,2,-8)};
+   string[] names={"tableware","fireplace","kitchen-cabinets","stove","motorcar","toilet","mirror","desk","clock","window"};
+   for(int i=0;i<pos.Length;i++){
+    D.View.transform.position=pos[i];D.View.transform.LookAt(target[i]);yield return new WaitForSeconds(.5f);yield return Capture("detail-"+names[i]);
+    if(names[i]=="mirror"){
+     var mirror=FindFirstObjectByType<PlanarMirror>();Check(mirror&&mirror.RenderCount>0,"Bathroom mirror renders room reflection");
+     if(mirror){var previous=RenderTexture.active;RenderTexture.active=mirror.ReflectionTexture;var tex=new Texture2D(512,512,TextureFormat.RGB24,false);tex.ReadPixels(new Rect(0,0,512,512),0,0);tex.Apply();File.WriteAllBytes(Path.Combine(dir,"mirror-reflection.png"),tex.EncodeToPNG());Destroy(tex);RenderTexture.active=previous;}
+    }
+   }
+   foreach(var h in interactive)h.ServerAct(new InteractionRequest{objectId=h.Id,action="close"});
+   yield return new WaitForSeconds(2);
+   foreach(var h in interactive){
+    if(h.Hinge)Check(Quaternion.Angle(h.Hinge.localRotation,Quaternion.identity)<1,"Hinge closes "+h.DisplayName+" #"+h.Id);
+    if(h.Lamps!=null)Check(h.Lamps.All(l=>!l.enabled),"Light off "+h.DisplayName+" #"+h.Id);
+    if(h.ActiveVisual)Check(!h.ActiveVisual.activeSelf,"Active visual closes "+h.DisplayName+" #"+h.Id);
+   }
   }
   IEnumerator WalkHouse(){
    D.UI.PauseOpen=true;

@@ -11,3 +11,5 @@
 *.user
 *.blend1
 *.blend2
+__pycache__/
+*.pyc

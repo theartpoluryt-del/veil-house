@@ -1,0 +1,135 @@
+{
+  "category": "Joinery",
+  "checks": [
+    {
+      "id": "PanelDoor",
+      "status": "PASS",
+      "triangles": 16208,
+      "dimensions": [
+        1.477999985218048,
+        0.3479290008544922,
+        2.639999871921444
+      ]
+    },
+    {
+      "id": "DoorCasing",
+      "status": "PASS",
+      "triangles": 3792,
+      "dimensions": [
+        2.0199999809265137,
+        0.3440002053976059,
+        2.9399998312590325
+      ]
+    },
+    {
+      "id": "SashWindow",
+      "status": "PASS",
+      "triangles": 13116,
+      "dimensions": [
+        3.989999532699585,
+        0.4300001487135887,
+        2.2330801486968994
+      ]
+    },
+    {
+      "id": "BrassBed",
+      "status": "PASS",
+      "triangles": 7312,
+      "dimensions": [
+        2.0799999237060547,
+        2.6900001764297485,
+        1.3010002933442593
+      ]
+    },
+    {
+      "id": "GuestBed",
+      "status": "PASS",
+      "triangles": 7312,
+      "dimensions": [
+        2.0799999237060547,
+        2.6900001764297485,
+        1.3010002933442593
+      ]
+    },
+    {
+      "id": "KitchenBody",
+      "status": "PASS",
+      "triangles": 2648,
+      "dimensions": [
+        1.5400000214576721,
+        0.6700000464916229,
+        1.2555001034930893
+      ]
+    },
+    {
+      "id": "KitchenLeaf",
+      "status": "PASS",
+      "triangles": 3724,
+      "dimensions": [
+        1.3650000095367432,
+        0.147494338452816,
+        1.129999939352274
+      ]
+    },
+    {
+      "id": "WardrobeBody",
+      "status": "PASS",
+      "triangles": 14936,
+      "dimensions": [
+        1.5400000214576721,
+        0.6700001060962677,
+        1.8555000081256576
+      ]
+    },
+    {
+      "id": "WardrobeLeaf",
+      "status": "PASS",
+      "triangles": 3724,
+      "dimensions": [
+        1.3650000095367432,
+        0.14748892188072205,
+        1.7300000227987766
+      ]
+    },
+    {
+      "id": "ToolBody",
+      "status": "PASS",
+      "triangles": 2648,
+      "dimensions": [
+        1.5400000214576721,
+        0.6700000464916229,
+        1.2555001034930893
+      ]
+    },
+    {
+      "id": "ToolLeaf",
+      "status": "PASS",
+      "triangles": 5040,
+      "dimensions": [
+        1.3650000095367432,
+        0.147494338452816,
+        1.129999939352274
+      ]
+    },
+    {
+      "id": "DocumentBody",
+      "status": "PASS",
+      "triangles": 2648,
+      "dimensions": [
+        1.5400000214576721,
+        0.6700000464916229,
+        1.2555001034930893
+      ]
+    },
+    {
+      "id": "DocumentLeaf",
+      "status": "PASS",
+      "triangles": 3724,
+      "dimensions": [
+        1.3650000095367432,
+        0.147494338452816,
+        1.129999939352274
+      ]
+    }
+  ]
+}

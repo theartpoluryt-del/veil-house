@@ -1,0 +1,124 @@
+{
+  "category": "Vessels",
+  "models": [
+    {
+      "id": "PlateIvory",
+      "triangles": 2320,
+      "materials": [
+        "Porcelain",
+        "Brass",
+        "BlueGlaze"
+      ]
+    },
+    {
+      "id": "PlateBlue",
+      "triangles": 2320,
+      "materials": [
+        "BlueGlaze",
+        "Brass",
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "VasePear",
+      "triangles": 2432,
+      "materials": [
+        "Porcelain",
+        "Brass"
+      ]
+    },
+    {
+      "id": "VaseFluted",
+      "triangles": 2688,
+      "materials": [
+        "BlueGlaze",
+        "Brass"
+      ]
+    },
+    {
+      "id": "Candlestick",
+      "triangles": 1624,
+      "materials": [
+        "Brass",
+        "Wax",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Kettle",
+      "triangles": 4092,
+      "materials": [
+        "Copper",
+        "Iron"
+      ]
+    },
+    {
+      "id": "CopperPan",
+      "triangles": 1388,
+      "materials": [
+        "Copper",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Wine",
+      "triangles": 3650,
+      "materials": [
+        "BlueGlaze",
+        "Walnut",
+        "Brass",
+        "Decals"
+      ]
+    },
+    {
+      "id": "Milk",
+      "triangles": 3650,
+      "materials": [
+        "Enamel",
+        "Walnut",
+        "Brass",
+        "Decals"
+      ]
+    },
+    {
+      "id": "Perfume",
+      "triangles": 3650,
+      "materials": [
+        "GlassPatina",
+        "Brass",
+        "Decals"
+      ]
+    },
+    {
+      "id": "Oil",
+      "triangles": 3694,
+      "materials": [
+        "MotorPaint",
+        "Walnut",
+        "Iron",
+        "Decals",
+        "Copper"
+      ]
+    },
+    {
+      "id": "JarTea",
+      "triangles": 3650,
+      "materials": [
+        "GlassPatina",
+        "Copper",
+        "Brass",
+        "Decals"
+      ]
+    },
+    {
+      "id": "JarSpice",
+      "triangles": 3650,
+      "materials": [
+        "GlassPatina",
+        "Copper",
+        "Brass",
+        "Decals"
+      ]
+    }
+  ]
+}

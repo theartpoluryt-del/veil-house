@@ -2,79 +2,219 @@
   "materials": [
     {
       "id": "SmokedOak",
-      "title": "01 • Smoked oak",
+      "title": "01 \u2022 Smoked oak",
       "width": 1,
       "height": 2,
       "resolution": 2048
     },
     {
       "id": "Parquet",
-      "title": "02 • Staggered oak boards",
+      "title": "02 \u2022 Staggered oak boards",
       "width": 1.2,
       "height": 2.4,
       "resolution": 2048
     },
     {
       "id": "Plaster",
-      "title": "03 • Warm lime plaster",
+      "title": "03 \u2022 Warm lime plaster",
       "width": 1,
       "height": 1,
       "resolution": 2048
     },
     {
       "id": "TealPaint",
-      "title": "04 • Aged teal paint",
+      "title": "04 \u2022 Aged teal paint",
       "width": 1,
       "height": 1,
       "resolution": 2048
     },
     {
       "id": "Wallpaper",
-      "title": "05 • Olive botanical wallpaper",
+      "title": "05 \u2022 Olive botanical wallpaper",
       "width": 0.6,
       "height": 1.2,
       "resolution": 2048
     },
     {
       "id": "Tile",
-      "title": "06 • Victorian glazed tile",
+      "title": "06 \u2022 Victorian glazed tile",
       "width": 0.8,
       "height": 0.8,
       "resolution": 2048
     },
     {
       "id": "BurgundyFabric",
-      "title": "07 • Burgundy woven upholstery",
+      "title": "07 \u2022 Burgundy woven upholstery",
       "width": 0.25,
       "height": 0.25,
       "resolution": 2048
     },
     {
       "id": "Linen",
-      "title": "08 • Cream woven linen",
+      "title": "08 \u2022 Cream woven linen",
       "width": 0.25,
       "height": 0.25,
       "resolution": 2048
     },
     {
       "id": "Leather",
-      "title": "09 • Bottle green leather",
+      "title": "09 \u2022 Bottle green leather",
       "width": 0.5,
       "height": 0.5,
       "resolution": 2048
     },
     {
       "id": "Brass",
-      "title": "10 • Brushed antique brass",
+      "title": "10 \u2022 Brushed antique brass",
       "width": 0.25,
       "height": 0.25,
       "resolution": 2048
     },
     {
       "id": "PersianRug",
-      "title": "11 • Woven heritage carpet",
+      "title": "11 \u2022 Woven heritage carpet",
       "width": 3,
       "height": 5,
+      "resolution": 2048
+    },
+    {
+      "id": "Porcelain",
+      "title": "Porcelain",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "BlueGlaze",
+      "title": "BlueGlaze",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Enamel",
+      "title": "Enamel",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Iron",
+      "title": "Iron",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Rubber",
+      "title": "Rubber",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "MotorPaint",
+      "title": "MotorPaint",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Marble",
+      "title": "Veined marble",
+      "width": 1,
+      "height": 1,
+      "resolution": 2048
+    },
+    {
+      "id": "Limestone",
+      "title": "Limestone",
+      "width": 1,
+      "height": 1,
+      "resolution": 2048
+    },
+    {
+      "id": "HearthBrick",
+      "title": "Soot stained brick",
+      "width": 1.2,
+      "height": 1.2,
+      "resolution": 2048
+    },
+    {
+      "id": "Wax",
+      "title": "Wax",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Paper",
+      "title": "Paper",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Soil",
+      "title": "Soil",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Bark",
+      "title": "Bark",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Leaf",
+      "title": "Veined foliage",
+      "width": 0.2,
+      "height": 0.35,
+      "resolution": 2048
+    },
+    {
+      "id": "Towel",
+      "title": "Looped terry cloth",
+      "width": 0.3,
+      "height": 0.3,
+      "resolution": 2048
+    },
+    {
+      "id": "Speaker",
+      "title": "Woven speaker grille",
+      "width": 0.25,
+      "height": 0.25,
+      "resolution": 2048
+    },
+    {
+      "id": "GlassPatina",
+      "title": "GlassPatina",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Copper",
+      "title": "Copper",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "Chrome",
+      "title": "Chrome",
+      "width": 0.5,
+      "height": 0.5,
+      "resolution": 2048
+    },
+    {
+      "id": "MirrorSilver",
+      "title": "MirrorSilver",
+      "width": 0.5,
+      "height": 0.5,
       "resolution": 2048
     }
   ]

@@ -1,0 +1,53 @@
+{
+  "category": "mugs",
+  "models": [
+    {
+      "id": "MugClassic",
+      "triangles": 5556,
+      "closed_meshes": 6,
+      "materials": [
+        "BlueGlaze",
+        "Porcelain"
+      ],
+      "size_m": [
+        0.19721199572086334,
+        0.12699999660253525,
+        0.11506794294109568
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "TeacupFloral",
+      "triangles": 9796,
+      "closed_meshes": 24,
+      "materials": [
+        "BlueGlaze",
+        "Brass",
+        "Porcelain"
+      ],
+      "size_m": [
+        0.23857315629720688,
+        0.21599999070167542,
+        0.09414847870357335
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "MugEnamel",
+      "triangles": 3620,
+      "closed_meshes": 5,
+      "materials": [
+        "BlueGlaze",
+        "Enamel",
+        "Iron"
+      ],
+      "size_m": [
+        0.18915152177214622,
+        0.11600000783801079,
+        0.1010433854535222
+      ],
+      "status": "PASS"
+    }
+  ],
+  "missing_textures": []
+}

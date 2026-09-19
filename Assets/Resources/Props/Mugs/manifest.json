@@ -1,0 +1,46 @@
+{
+  "category": "mugs",
+  "models": [
+    {
+      "id": "MugClassic",
+      "triangles": 5556,
+      "materials": [
+        "BlueGlaze",
+        "Porcelain"
+      ],
+      "size": [
+        0.1972,
+        0.127,
+        0.1151
+      ]
+    },
+    {
+      "id": "TeacupFloral",
+      "triangles": 9796,
+      "materials": [
+        "BlueGlaze",
+        "Brass",
+        "Porcelain"
+      ],
+      "size": [
+        0.2386,
+        0.216,
+        0.0941
+      ]
+    },
+    {
+      "id": "MugEnamel",
+      "triangles": 3620,
+      "materials": [
+        "BlueGlaze",
+        "Enamel",
+        "Iron"
+      ],
+      "size": [
+        0.1892,
+        0.116,
+        0.101
+      ]
+    }
+  ]
+}

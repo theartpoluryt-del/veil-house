@@ -1,0 +1,115 @@
+{
+  "category": "Garage",
+  "models": [
+    {
+      "id": "Motorcar",
+      "triangles": 42366,
+      "materials": [
+        "Iron",
+        "MotorPaint",
+        "Rubber",
+        "Chrome",
+        "Brass",
+        "Porcelain",
+        "Leather",
+        "Walnut",
+        "GlassPatina",
+        "Decals"
+      ]
+    },
+    {
+      "id": "SpareTire",
+      "triangles": 3840,
+      "materials": [
+        "Rubber"
+      ]
+    },
+    {
+      "id": "Hammer",
+      "triangles": 752,
+      "materials": [
+        "SmokedOak",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Wrench",
+      "triangles": 1168,
+      "materials": [
+        "Iron",
+        "Chrome"
+      ]
+    },
+    {
+      "id": "Suitcase",
+      "triangles": 1188,
+      "materials": [
+        "Leather",
+        "Walnut",
+        "Brass"
+      ]
+    },
+    {
+      "id": "Toolbox",
+      "triangles": 1188,
+      "materials": [
+        "MotorPaint",
+        "Iron",
+        "Brass"
+      ]
+    },
+    {
+      "id": "Canister",
+      "triangles": 1344,
+      "materials": [
+        "MotorPaint",
+        "Iron",
+        "Brass"
+      ]
+    },
+    {
+      "id": "JewelryBox",
+      "triangles": 1188,
+      "materials": [
+        "SmokedOak",
+        "Iron",
+        "Brass"
+      ]
+    },
+    {
+      "id": "WoodCrate",
+      "triangles": 6436,
+      "materials": [
+        "SmokedOak",
+        "Walnut",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Breadbox",
+      "triangles": 4164,
+      "materials": [
+        "SmokedOak",
+        "Walnut",
+        "Brass"
+      ]
+    },
+    {
+      "id": "Letters",
+      "triangles": 1548,
+      "materials": [
+        "Paper",
+        "Walnut",
+        "BookBlue"
+      ]
+    },
+    {
+      "id": "Inkpot",
+      "triangles": 316,
+      "materials": [
+        "GlassPatina",
+        "Brass"
+      ]
+    }
+  ]
+}

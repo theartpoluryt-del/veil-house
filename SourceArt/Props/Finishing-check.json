@@ -1,0 +1,55 @@
+{
+  "category": "Finishing",
+  "checks": [
+    {
+      "id": "EntranceDoors",
+      "status": "PASS",
+      "triangles": 9896,
+      "dimensions": [
+        2.619999885559082,
+        0.26109981536865234,
+        2.7999999572236476
+      ]
+    },
+    {
+      "id": "GarageDoors",
+      "status": "PASS",
+      "triangles": 8912,
+      "dimensions": [
+        4.411999702453613,
+        0.23703459650278091,
+        2.72000003233552
+      ]
+    },
+    {
+      "id": "Matchbox",
+      "status": "PASS",
+      "triangles": 4644,
+      "dimensions": [
+        0.1119999997317791,
+        0.18800000101327896,
+        0.05200001554476863
+      ]
+    },
+    {
+      "id": "Cypress",
+      "status": "PASS",
+      "triangles": 8528,
+      "dimensions": [
+        1.1525253057479858,
+        1.1152682304382324,
+        6.690220395171611
+      ]
+    },
+    {
+      "id": "Medicine",
+      "status": "PASS",
+      "triangles": 770,
+      "dimensions": [
+        0.1289599984884262,
+        0.128960020840168,
+        0.38000000009973256
+      ]
+    }
+  ]
+}

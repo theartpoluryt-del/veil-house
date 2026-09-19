@@ -1,0 +1,118 @@
+{
+  "category": "Joinery",
+  "models": [
+    {
+      "id": "PanelDoor",
+      "triangles": 16208,
+      "materials": [
+        "SmokedOak",
+        "Brass",
+        "Iron"
+      ]
+    },
+    {
+      "id": "DoorCasing",
+      "triangles": 3792,
+      "materials": [
+        "Enamel"
+      ]
+    },
+    {
+      "id": "SashWindow",
+      "triangles": 13116,
+      "materials": [
+        "Enamel",
+        "GlassPatina",
+        "Walnut",
+        "Brass",
+        "BurgundyFabric"
+      ]
+    },
+    {
+      "id": "BrassBed",
+      "triangles": 7312,
+      "materials": [
+        "Walnut",
+        "Linen",
+        "BurgundyFabric",
+        "Brass"
+      ]
+    },
+    {
+      "id": "GuestBed",
+      "triangles": 7312,
+      "materials": [
+        "Walnut",
+        "Linen",
+        "Leather",
+        "Brass"
+      ]
+    },
+    {
+      "id": "KitchenBody",
+      "triangles": 2648,
+      "materials": [
+        "Enamel",
+        "SmokedOak"
+      ]
+    },
+    {
+      "id": "KitchenLeaf",
+      "triangles": 3724,
+      "materials": [
+        "Enamel",
+        "Brass"
+      ]
+    },
+    {
+      "id": "WardrobeBody",
+      "triangles": 14936,
+      "materials": [
+        "Walnut",
+        "SmokedOak",
+        "Linen"
+      ]
+    },
+    {
+      "id": "WardrobeLeaf",
+      "triangles": 3724,
+      "materials": [
+        "Walnut",
+        "Brass"
+      ]
+    },
+    {
+      "id": "ToolBody",
+      "triangles": 2648,
+      "materials": [
+        "MotorPaint",
+        "SmokedOak"
+      ]
+    },
+    {
+      "id": "ToolLeaf",
+      "triangles": 5040,
+      "materials": [
+        "MotorPaint",
+        "Brass",
+        "Iron"
+      ]
+    },
+    {
+      "id": "DocumentBody",
+      "triangles": 2648,
+      "materials": [
+        "Walnut",
+        "SmokedOak"
+      ]
+    },
+    {
+      "id": "DocumentLeaf",
+      "triangles": 3724,
+      "materials": [
+        "Walnut",
+        "Brass"
+      ]
+    }
+  ]
+}

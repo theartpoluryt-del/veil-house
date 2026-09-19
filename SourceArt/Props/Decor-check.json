@@ -1,0 +1,135 @@
+{
+  "category": "Decor",
+  "checks": [
+    {
+      "id": "Landscape",
+      "status": "PASS",
+      "triangles": 10142,
+      "dimensions": [
+        1.2819998860359192,
+        0.10000006854534149,
+        0.9066999554634094
+      ]
+    },
+    {
+      "id": "StillLife",
+      "status": "PASS",
+      "triangles": 10142,
+      "dimensions": [
+        1.2819998860359192,
+        0.10000006854534149,
+        0.9066999554634094
+      ]
+    },
+    {
+      "id": "PortraitFrame",
+      "status": "PASS",
+      "triangles": 10142,
+      "dimensions": [
+        1.2819998860359192,
+        0.10000006854534149,
+        0.9066999554634094
+      ]
+    },
+    {
+      "id": "PhotoCouple",
+      "status": "PASS",
+      "triangles": 1882,
+      "dimensions": [
+        0.28429998457431793,
+        0.1863737478852272,
+        0.3493107706308365
+      ]
+    },
+    {
+      "id": "PhotoManor",
+      "status": "PASS",
+      "triangles": 1882,
+      "dimensions": [
+        0.28429998457431793,
+        0.1863737478852272,
+        0.3493107706308365
+      ]
+    },
+    {
+      "id": "TableLamp",
+      "status": "PASS",
+      "triangles": 3732,
+      "dimensions": [
+        0.4968000054359436,
+        0.4968000203371048,
+        0.6030000586694433
+      ]
+    },
+    {
+      "id": "BankerLamp",
+      "status": "PASS",
+      "triangles": 1772,
+      "dimensions": [
+        0.429999977350235,
+        0.320000022649765,
+        0.5359999658264591
+      ]
+    },
+    {
+      "id": "Pendant",
+      "status": "PASS",
+      "triangles": 1884,
+      "dimensions": [
+        0.40880000591278076,
+        0.40880002081394196,
+        0.6499999892192774
+      ]
+    },
+    {
+      "id": "Chandelier",
+      "status": "PASS",
+      "triangles": 3564,
+      "dimensions": [
+        1.3169200420379639,
+        1.371846616268158,
+        0.39065389335155487
+      ]
+    },
+    {
+      "id": "PalmPlanter",
+      "status": "PASS",
+      "triangles": 2588,
+      "dimensions": [
+        1.2230608463287354,
+        1.1808668375015259,
+        1.1370375347978499
+      ]
+    },
+    {
+      "id": "FernPlanter",
+      "status": "PASS",
+      "triangles": 14084,
+      "dimensions": [
+        1.2230398058891296,
+        1.3053724765777588,
+        1.1432630015260603
+      ]
+    },
+    {
+      "id": "Flowerbed",
+      "status": "PASS",
+      "triangles": 13840,
+      "dimensions": [
+        1.7800000309944153,
+        0.5600000321865082,
+        0.6605435821211607
+      ]
+    },
+    {
+      "id": "GrandfatherClock",
+      "status": "PASS",
+      "triangles": 5166,
+      "dimensions": [
+        0.9199999570846558,
+        0.5600002110004425,
+        2.6710000249541075
+      ]
+    }
+  ]
+}

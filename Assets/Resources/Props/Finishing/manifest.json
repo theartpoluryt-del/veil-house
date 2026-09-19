@@ -1,0 +1,50 @@
+{
+  "category": "Finishing",
+  "models": [
+    {
+      "id": "EntranceDoors",
+      "triangles": 9896,
+      "materials": [
+        "Walnut",
+        "SmokedOak",
+        "Brass",
+        "Iron"
+      ]
+    },
+    {
+      "id": "GarageDoors",
+      "triangles": 8912,
+      "materials": [
+        "SmokedOak",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Matchbox",
+      "triangles": 4644,
+      "materials": [
+        "BurgundyFabric",
+        "Paper",
+        "Iron",
+        "SmokedOak"
+      ]
+    },
+    {
+      "id": "Cypress",
+      "triangles": 8528,
+      "materials": [
+        "Bark",
+        "Leaf"
+      ]
+    },
+    {
+      "id": "Medicine",
+      "triangles": 770,
+      "materials": [
+        "GlassPatina",
+        "BlueGlaze",
+        "Decals"
+      ]
+    }
+  ]
+}

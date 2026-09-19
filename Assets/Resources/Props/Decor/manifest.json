@@ -1,0 +1,125 @@
+{
+  "category": "Decor",
+  "models": [
+    {
+      "id": "Landscape",
+      "triangles": 10142,
+      "materials": [
+        "Walnut",
+        "Brass",
+        "ArtAtlas"
+      ]
+    },
+    {
+      "id": "StillLife",
+      "triangles": 10142,
+      "materials": [
+        "Walnut",
+        "Brass",
+        "ArtAtlas"
+      ]
+    },
+    {
+      "id": "PortraitFrame",
+      "triangles": 10142,
+      "materials": [
+        "Walnut",
+        "Brass",
+        "FamilyPortrait"
+      ]
+    },
+    {
+      "id": "PhotoCouple",
+      "triangles": 1882,
+      "materials": [
+        "Walnut",
+        "Brass",
+        "ArtAtlas"
+      ]
+    },
+    {
+      "id": "PhotoManor",
+      "triangles": 1882,
+      "materials": [
+        "Walnut",
+        "Brass",
+        "ArtAtlas"
+      ]
+    },
+    {
+      "id": "TableLamp",
+      "triangles": 3732,
+      "materials": [
+        "Brass",
+        "Glow",
+        "Linen"
+      ]
+    },
+    {
+      "id": "BankerLamp",
+      "triangles": 1772,
+      "materials": [
+        "Brass",
+        "BlueGlaze",
+        "Glow"
+      ]
+    },
+    {
+      "id": "Pendant",
+      "triangles": 1884,
+      "materials": [
+        "Brass",
+        "Glow"
+      ]
+    },
+    {
+      "id": "Chandelier",
+      "triangles": 3564,
+      "materials": [
+        "Brass",
+        "Glow"
+      ]
+    },
+    {
+      "id": "PalmPlanter",
+      "triangles": 2588,
+      "materials": [
+        "BlueGlaze",
+        "Soil",
+        "Bark",
+        "Leaf"
+      ]
+    },
+    {
+      "id": "FernPlanter",
+      "triangles": 14084,
+      "materials": [
+        "Copper",
+        "Soil",
+        "Bark",
+        "Leaf"
+      ]
+    },
+    {
+      "id": "Flowerbed",
+      "triangles": 13840,
+      "materials": [
+        "SmokedOak",
+        "Soil",
+        "Leaf",
+        "BurgundyFabric"
+      ]
+    },
+    {
+      "id": "GrandfatherClock",
+      "triangles": 5166,
+      "materials": [
+        "Walnut",
+        "SmokedOak",
+        "Iron",
+        "Brass",
+        "Decals"
+      ]
+    }
+  ]
+}

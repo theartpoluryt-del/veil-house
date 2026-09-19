@@ -22,9 +22,10 @@ namespace VeilHouse {
             return p.x<7?"Спальня хозяина":"Ванная";
         }
         public static GameObject Build() {
-            HauntedObject.ResetRegistry();propCount=0;random=new System.Random(1927);ownedAssets=new List<UnityEngine.Object>();surfaceMeters=new Dictionary<Material,Vector2>();
+            HauntedObject.ResetRegistry();DetailedObjects.Reset();propCount=0;random=new System.Random(1927);ownedAssets=new List<UnityEngine.Object>();surfaceMeters=new Dictionary<Material,Vector2>();
             root=new GameObject("VEIL HOUSE · Дом по ту сторону").transform;
             MakeMaterials();Atmosphere();Architecture();LivingRoom();Kitchen();Garage();Study();Bedroom();Bath();GuestBedroom();Hall();Garden();
+            DetailedObjects.Apply(root);
             OptimizeGeometry();root.gameObject.AddComponent<ProceduralWorldAssets>().Owned=ownedAssets.ToArray();
             return root.gameObject;
         }
@@ -32,14 +33,14 @@ namespace VeilHouse {
             oak=Surface("SmokedOak",1,2);darkOak=Surface("SmokedOak",1,2,new Color(.57f,.49f,.40f));
             parquet=Surface("Parquet",1.2f,2.4f);
             cream=Surface("Plaster",1,1);teal=Surface("TealPaint",1,1);
-            trim=Mat("Aged ivory joinery",new Color(.81f,.77f,.63f),.2f);
+            trim=Surface("Enamel",.5f,.5f);
             brass=Surface("Brass",.25f,.25f);
-            black=Mat("Charcoal",new Color(.035f,.04f,.04f),.25f);
+            black=Surface("Rubber",.5f,.5f);
             burgundy=Surface("BurgundyFabric",.25f,.25f);linen=Surface("Linen",.25f,.25f);
             leather=Surface("Leather",.5f,.5f);
             glass=Mat("Moonlit leaded glass",new Color(.15f,.28f,.34f),.86f,.22f);glass.EnableKeyword("_EMISSION");glass.SetColor("_EmissionColor",new Color(.13f,.24f,.31f)*.7f);
-            ceramic=Mat("Glazed porcelain",new Color(.80f,.81f,.73f),.73f);
-            iron=Mat("Blackened iron",new Color(.11f,.13f,.13f),.48f,.62f);
+            ceramic=Surface("Porcelain",.5f,.5f);
+            iron=Surface("Iron",.5f,.5f);
             tile=Surface("Tile",.8f,.8f);wallpaper=Surface("Wallpaper",.6f,1.2f);
             rugMat=Surface("PersianRug",3,5);surfaceMeters.Remove(rugMat); // Whole carpet layout, once per rug.
             water=Mat("Falling water",new Color(.3f,.62f,.67f),.9f,.2f);water.EnableKeyword("_EMISSION");water.SetColor("_EmissionColor",new Color(.04f,.12f,.16f));
@@ -260,7 +261,9 @@ namespace VeilHouse {
             var g=Physical(p,"Книга",new Vector3(.31f,.07f,.43f),.35f,yaw);Box("Cream page block",Vector3.zero,new Vector3(.285f,.049f,.405f),paper,g);foreach(float y in new[]{-.032f,.032f})Box("Cloth book cover",new Vector3(0,y,0),new Vector3(.32f,.014f,.44f),style%2==0?bookRed:bookBlue,g);Box("Book spine",new Vector3(-.156f,0,0),new Vector3(.022f,.067f,.44f),style%2==0?bookRed:bookBlue,g);Box("Gold title",new Vector3(.02f,.041f,-.02f),new Vector3(.17f,.006f,.025f),brass,g);
         }
         static void Mug(Vector3 p,string label="Чашка",bool tea=true) {
-            var g=Physical(p,label,new Vector3(.19f,.22f,.19f),.25f);Cylinder("Porcelain cup",Vector3.zero,new Vector3(.18f,.10f,.18f),ceramic,g);Cylinder("Tea surface",new Vector3(0,.094f,0),new Vector3(.144f,.006f,.144f),tea?darkOak:ceramic,g);var h=Cylinder("Cup handle",new Vector3(.10f,.01f,0),new Vector3(.10f,.020f,.10f),ceramic,g);h.transform.localRotation=Quaternion.Euler(90,0,0);
+            var g=Physical(p,label,new Vector3(.23f,.16f,.18f),.25f);
+            string[] variants={"MugClassic","TeacupFloral","MugEnamel"};
+            DetailedObjects.Model(variants[propCount%3],g,new Bounds(Vector3.zero,new Vector3(.23f,.16f,.18f)),false);
         }
         static void Bottle(Vector3 p,string label="Бутылка",bool clear=false) {
             var g=Physical(p,label,new Vector3(.16f,.42f,.16f),.55f);Cylinder("Glass bottle body",new Vector3(0,-.065f,0),new Vector3(.15f,.13f,.15f),clear?glass:leather,g);Ball("Bottle shoulder",new Vector3(0,.068f,0),new Vector3(.15f,.14f,.15f),clear?glass:leather,g);Cylinder("Bottle neck",new Vector3(0,.145f,0),new Vector3(.057f,.075f,.057f),clear?glass:leather,g);Cylinder("Cork",new Vector3(0,.214f,0),new Vector3(.05f,.024f,.05f),oak,g);Box("Paper bottle label",new Vector3(0,-.04f,-.076f),new Vector3(.09f,.10f,.004f),paper,g);
@@ -348,7 +351,9 @@ namespace VeilHouse {
             Cylinder("Brass tap upright",new Vector3(0,.27f,.22f),new Vector3(.039f,.22f,.039f),brass,g);var tap=Cylinder("Brass faucet spout",new Vector3(0,.47f,.09f),new Vector3(.040f,.15f,.040f),brass,g);tap.transform.localRotation=Quaternion.Euler(90,0,0);
             foreach(float x in new[]{-.24f,.24f}) {Cylinder("Tap cross spindle",new Vector3(x,.14f,.22f),new Vector3(.035f,.08f,.035f),brass,g);Box("Tap cross handle",new Vector3(x,.21f,.22f),new Vector3(.16f,.025f,.04f),ceramic,g);}
             var stream=Cylinder("Running water",new Vector3(0,.27f,-.045f),new Vector3(.027f,.16f,.027f),water,g);stream.SetActive(false);
-            var h=g.gameObject.AddComponent<HauntedObject>().Initialize(label,HauntKind.Water);h.ActiveVisual=stream;ColliderBox(g,new Vector3(0,.2f,0),new Vector3(.95f,.54f,.64f));
+            var h=g.gameObject.AddComponent<HauntedObject>().Initialize(label,HauntKind.Water);h.ActiveVisual=stream;
+            ColliderBox(g,new Vector3(0,-.01f,0),new Vector3(.95f,.17f,.64f));
+            ColliderBox(g,new Vector3(0,.30f,label=="Кран умывальника"?-.12f:.12f),new Vector3(.15f,.42f,.22f));
         }
         static void Study() {
             CeilingLamp(new Vector3(7.1f,3.4f,-7.5f),"Лампа кабинета",9,.85f);Rug(new Vector3(7,0,-7.4f),6.9f,4.4f);
@@ -516,7 +521,7 @@ namespace VeilHouse {
             // Keep every collider and animated hinge, but merge static mesh surfaces by material.
             // This turns thousands of trim/book/furniture parts into a few dozen draw calls.
             var staticMeshes=new List<MeshFilter>();
-            foreach(var mf in root.GetComponentsInChildren<MeshFilter>())if(!mf.GetComponentInParent<HauntedObject>())staticMeshes.Add(mf);
+            foreach(var mf in root.GetComponentsInChildren<MeshFilter>())if(!mf.GetComponentInParent<HauntedObject>()&&!mf.GetComponent<PlanarMirror>())staticMeshes.Add(mf);
             Combine(root,staticMeshes,"Architectural surfaces");
             foreach(var h in HauntedObject.All.Values)if(h.Kind==HauntKind.Prop)Combine(h.transform,new List<MeshFilter>(h.GetComponentsInChildren<MeshFilter>()),"Prop surfaces");
         }

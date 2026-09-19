@@ -1,0 +1,81 @@
+{
+  "category": "Bathroom",
+  "models": [
+    {
+      "id": "Sink",
+      "triangles": 4124,
+      "materials": [
+        "Porcelain",
+        "Chrome",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Pedestal",
+      "triangles": 896,
+      "materials": [
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "Bathtub",
+      "triangles": 5016,
+      "materials": [
+        "Enamel",
+        "Chrome",
+        "Iron",
+        "Brass"
+      ]
+    },
+    {
+      "id": "BathTap",
+      "triangles": 1588,
+      "materials": [
+        "Chrome",
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "Toilet",
+      "triangles": 4552,
+      "materials": [
+        "Porcelain",
+        "Chrome",
+        "Iron",
+        "Walnut"
+      ]
+    },
+    {
+      "id": "Mirror",
+      "triangles": 7124,
+      "materials": [
+        "MirrorSilver",
+        "Brass",
+        "Iron"
+      ]
+    },
+    {
+      "id": "FoldedTowel",
+      "triangles": 14176,
+      "materials": [
+        "Towel",
+        "BlueGlaze"
+      ]
+    },
+    {
+      "id": "Soap",
+      "triangles": 752,
+      "materials": [
+        "Wax",
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "BathMat",
+      "triangles": 4096,
+      "materials": [
+        "Towel"
+      ]
+    }
+  ]
+}

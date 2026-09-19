@@ -1,0 +1,101 @@
+{
+  "category": "Appliances",
+  "models": [
+    {
+      "id": "Television",
+      "triangles": 7030,
+      "materials": [
+        "Walnut",
+        "SmokedOak",
+        "Iron",
+        "Screen",
+        "Porcelain",
+        "Speaker",
+        "Chrome",
+        "Decals"
+      ]
+    },
+    {
+      "id": "Radio",
+      "triangles": 3398,
+      "materials": [
+        "Walnut",
+        "SmokedOak",
+        "Speaker",
+        "Decals",
+        "Iron",
+        "Porcelain",
+        "Glow"
+      ]
+    },
+    {
+      "id": "Stove",
+      "triangles": 15352,
+      "materials": [
+        "Enamel",
+        "Iron",
+        "GlassPatina",
+        "Chrome",
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "Fireplace",
+      "triangles": 6532,
+      "materials": [
+        "HearthBrick",
+        "Limestone",
+        "Marble",
+        "Bark",
+        "Iron",
+        "Glow"
+      ]
+    },
+    {
+      "id": "Telephone",
+      "triangles": 6812,
+      "materials": [
+        "Iron",
+        "Brass",
+        "Rubber"
+      ]
+    },
+    {
+      "id": "Globe",
+      "triangles": 1776,
+      "materials": [
+        "Brass",
+        "Decals"
+      ]
+    },
+    {
+      "id": "BookRedDetail",
+      "triangles": 3816,
+      "materials": [
+        "Paper",
+        "BurgundyFabric",
+        "Brass",
+        "Linen"
+      ]
+    },
+    {
+      "id": "BookBlueDetail",
+      "triangles": 3816,
+      "materials": [
+        "Paper",
+        "BookBlue",
+        "Brass",
+        "Linen"
+      ]
+    },
+    {
+      "id": "Umbrella",
+      "triangles": 1372,
+      "materials": [
+        "BookBlue",
+        "Walnut",
+        "Leather"
+      ]
+    }
+  ]
+}

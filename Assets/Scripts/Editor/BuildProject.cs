@@ -13,7 +13,8 @@ namespace VeilHouse.Editor {
   public static void Build() {
    SurfaceMaterialImporter.RefreshMaterials();
    FurnitureImporter.RefreshPrefabs();
-   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.2.0";
+   PropImporter.RefreshPrefabs();
+   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.3.0";
    PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
    PlayerSettings.resizableWindow=true;PlayerSettings.runInBackground=true;PlayerSettings.visibleInBackground=true;
    PlayerSettings.colorSpace=ColorSpace.Linear;
