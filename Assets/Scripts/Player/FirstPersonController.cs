@@ -4,6 +4,7 @@ namespace VeilHouse {
  public sealed class FirstPersonController : MonoBehaviour {
   public Camera View; public HauntedObject Focus; public float Sensitivity=1.6f;
   public bool Ghost=>GameSession.I.LocalPlayer!=null&&GameSession.I.LocalPlayer.role==PlayerRole.Ghost;
+  public Light Flashlight=>flashlight;
   public int HeldId=-1; public Vector3 Position=>body.transform.position;
   public bool Crouching; public float MoveSpeed;
   GameObject body; CharacterController motor; Light flashlight;
@@ -12,7 +13,7 @@ namespace VeilHouse {
    View=camera;body=new GameObject("Local investigator controller");
    motor=body.AddComponent<CharacterController>();motor.height=1.8f;motor.radius=.27f;motor.center=new Vector3(0,.9f,0);motor.stepOffset=.24f;motor.skinWidth=.035f;
    var beam=new GameObject("Investigator torch");beam.transform.SetParent(View.transform,false);beam.transform.localPosition=new Vector3(.16f,-.13f,.1f);
-   flashlight=beam.AddComponent<Light>();flashlight.type=LightType.Spot;flashlight.spotAngle=58;flashlight.innerSpotAngle=28;flashlight.range=15;flashlight.intensity=2.2f;flashlight.color=new Color(1,.91f,.75f);flashlight.shadows=LightShadows.Soft;flashlight.enabled=false;
+   flashlight=beam.AddComponent<Light>();flashlight.type=LightType.Spot;flashlight.spotAngle=52;flashlight.innerSpotAngle=24;flashlight.range=15;flashlight.intensity=3.8f;flashlight.color=new Color(.91f,.95f,1);flashlight.shadows=LightShadows.Soft;flashlight.shadowBias=.015f;flashlight.shadowNormalBias=.08f;flashlight.shadowNearPlane=.05f;flashlight.renderMode=LightRenderMode.ForcePixel;flashlight.enabled=false;
   }
   public void Spawn(Vector3 position) {motor.enabled=false;body.transform.position=position;motor.enabled=true;yaw=0;pitch=0;vertical=0;HeldId=-1;}
   public void Teleport(Vector3 position,float facing=0) {motor.enabled=false;body.transform.position=position;motor.enabled=true;yaw=facing;pitch=0;}
@@ -31,7 +32,7 @@ namespace VeilHouse {
     Vector3 move=Quaternion.Euler(0,yaw,0)*Vector3.ClampMagnitude(new Vector3(x,0,z),1)*speed;
     MoveSpeed=move.magnitude;
     motor.enabled=!Ghost;
-    if(Ghost){move.y=((Input.GetKey(KeyCode.Space)?1:0)-(Input.GetKey(KeyCode.LeftControl)?1:0))*2.4f;body.transform.position+=move*Time.deltaTime;var p=body.transform.position;p.x=Mathf.Clamp(p.x,-11.5f,11.5f);p.z=Mathf.Clamp(p.z,-10.5f,10.5f);p.y=Mathf.Clamp(p.y,.12f,1.4f);body.transform.position=p;}
+    if(Ghost){move.y=((Input.GetKey(KeyCode.Space)?1:0)-(Input.GetKey(KeyCode.LeftControl)?1:0))*2.4f;body.transform.position+=move*Time.deltaTime;var p=body.transform.position;p.x=Mathf.Clamp(p.x,-11.5f*HouseLayout.PlanScale,11.5f*HouseLayout.PlanScale);p.z=Mathf.Clamp(p.z,-10.5f*HouseLayout.PlanScale,10.5f*HouseLayout.PlanScale);p.y=Mathf.Clamp(p.y,.12f,1.05f);body.transform.position=p;}
     else {motor.height=Crouching?1.2f:1.8f;motor.center=new Vector3(0,motor.height/2,0);vertical=motor.isGrounded?-2:vertical-18*Time.deltaTime;motor.Move((move+Vector3.up*vertical)*Time.deltaTime);}
     if(Input.GetKeyDown(KeyCode.F)&&!Ghost)flashlight.enabled=!flashlight.enabled;
    } else MoveSpeed=0;
@@ -62,7 +63,7 @@ namespace VeilHouse {
    if(Time.unscaledTime>sendAt){sendAt=Time.unscaledTime+.066f;s.SendPose(Position,yaw,pitch,Crouching,MoveSpeed);}
   }
   void SendHeld(string action) {
-   Vector3 target=View.transform.position+View.transform.forward*2.15f;target.y=Mathf.Clamp(target.y,.3f,3.05f);
+   Vector3 target=View.transform.position+View.transform.forward*2.15f;target.y=Mathf.Clamp(target.y,.3f,2.65f);
    GameSession.I.RequestInteraction(HeldId,action,target,View.transform.forward);
 
   }

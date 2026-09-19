@@ -11,7 +11,7 @@ def material(name):
     m=bpy.data.materials.new(name);m.use_nodes=True
     p=next(n for n in m.node_tree.nodes if n.type=='BSDF_PRINCIPLED');p.inputs['Roughness'].default_value=.7
     source={'Walnut':'SmokedOak','Glow':'Linen','Screen':'GlassPatina','BookBlue':'TealPaint','BookRed':'Leather'}.get(name,name)
-    if name in ('ArtAtlas','Decals','FamilyPortrait'):
+    if name in ('ArtAtlas','Decals','FamilyPortrait','Newsprint'):
         path=ROOT/('Assets/Resources/FamilyPortrait.png' if name=='FamilyPortrait' else 'Assets/Resources/ObjectArt/'+name+'.png')
         t=m.node_tree.nodes.new('ShaderNodeTexImage');t.image=bpy.data.images.load(str(path),check_existing=True)
         m.node_tree.links.new(t.outputs['Color'],p.inputs['Base Color']);return m

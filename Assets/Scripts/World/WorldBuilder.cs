@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -13,8 +14,9 @@ namespace VeilHouse {
         static int propCount;
         static List<UnityEngine.Object> ownedAssets;
         public static int PhysicalPropCount {get{return propCount;}}
-        public static Vector3 SpawnPoint(int index) {return new Vector3(index%2==0?-.72f:.72f,.18f,-8.4f+(index/2)*1.5f);}
+        public static Vector3 SpawnPoint(int index) {return HouseLayout.Map(new Vector3(index%2==0?-.72f:.72f,.18f,-8.4f+(index/2)*1.5f));}
         public static string RoomAt(Vector3 p) {
+            p=HouseLayout.Unmap(p);
             if(Mathf.Abs(p.x)<2.05f)return "Галерея";
             if(p.x<0)return p.z<-2?"Гостиная":p.z<4?"Кухня":"Гараж";
             if(p.z<-4)return "Кабинет";
@@ -26,7 +28,9 @@ namespace VeilHouse {
             root=new GameObject("VEIL HOUSE · Дом по ту сторону").transform;
             MakeMaterials();Atmosphere();Architecture();LivingRoom();Kitchen();Garage();Study();Bedroom();Bath();GuestBedroom();Hall();Garden();
             DetailedObjects.Apply(root);
-            OptimizeGeometry();root.gameObject.AddComponent<ProceduralWorldAssets>().Owned=ownedAssets.ToArray();
+            HouseLayout.Apply(root);
+            LivedInHouse.Apply(root);
+            OptimizeGeometry();RoomLighting.Install(root);root.gameObject.AddComponent<ProceduralWorldAssets>().Owned=ownedAssets.ToArray();
             return root.gameObject;
         }
         static void MakeMaterials() {
@@ -98,7 +102,7 @@ namespace VeilHouse {
                 }
                 mesh.uv=uv;mesh.RecalculateTangents();ownedAssets.Add(mesh);o.GetComponent<MeshFilter>().sharedMesh=mesh;
             }
-            if(!collider){var c=o.GetComponent<Collider>();if(c){c.enabled=false;UnityEngine.Object.Destroy(c);}}
+            if(!collider){var c=o.GetComponent<Collider>();if(c){c.enabled=false;if(Application.isPlaying)UnityEngine.Object.Destroy(c);else UnityEngine.Object.DestroyImmediate(c);}}
             return o;
         }
         static GameObject Box(string n,Vector3 p,Vector3 s,Material m,Transform parent=null,bool collide=false) {return Part(n,PrimitiveType.Cube,p,s,m,parent,collide);}
@@ -106,12 +110,12 @@ namespace VeilHouse {
         static GameObject Cylinder(string n,Vector3 p,Vector3 s,Material m,Transform parent=null) {return Part(n,PrimitiveType.Cylinder,p,s,m,parent);}
         static void ColliderBox(Transform t,Vector3 center,Vector3 size) {var c=t.gameObject.AddComponent<BoxCollider>();c.center=center;c.size=size;}
         static Light Point(string name,Vector3 position,Color color,float intensity,float range,Transform parent=null) {
-            var obj=Group(name,position,parent);var l=obj.AddComponent<Light>();l.type=LightType.Point;l.color=color;l.intensity=intensity;l.range=range;l.shadows=LightShadows.None;l.renderMode=LightRenderMode.ForcePixel;return l;
+            var obj=Group(name,position,parent);var l=obj.AddComponent<Light>();l.type=LightType.Point;l.color=color;l.intensity=intensity;l.range=range;l.shadows=LightShadows.Soft;l.shadowStrength=.95f;l.shadowBias=.025f;l.shadowNormalBias=.12f;l.shadowNearPlane=.06f;l.renderMode=LightRenderMode.ForcePixel;return l;
         }
         static void Atmosphere() {
-            RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=new Color(.35f,.39f,.44f);RenderSettings.ambientEquatorColor=new Color(.25f,.28f,.29f);RenderSettings.ambientGroundColor=new Color(.15f,.14f,.12f);
-            RenderSettings.fog=true;RenderSettings.fogColor=new Color(.065f,.10f,.135f);RenderSettings.fogMode=FogMode.ExponentialSquared;RenderSettings.fogDensity=.012f;
-            var obj=Group("Cold moonlight",Vector3.zero);obj.transform.rotation=Quaternion.Euler(45,-30,0);var sun=obj.AddComponent<Light>();sun.type=LightType.Directional;sun.color=new Color(.47f,.62f,.78f);sun.intensity=.42f;sun.shadows=LightShadows.Soft;sun.shadowStrength=.7f;RenderSettings.sun=sun;
+            RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=new Color(.012f,.016f,.024f);RenderSettings.ambientEquatorColor=new Color(.006f,.008f,.012f);RenderSettings.ambientGroundColor=new Color(.003f,.003f,.004f);
+            RenderSettings.fog=true;RenderSettings.fogColor=new Color(.065f,.10f,.135f);RenderSettings.fogMode=FogMode.ExponentialSquared;RenderSettings.fogDensity=.004f;
+            var obj=Group("Cold moonlight",Vector3.zero);obj.transform.rotation=Quaternion.Euler(45,-30,0);var sun=obj.AddComponent<Light>();sun.type=LightType.Directional;sun.color=new Color(.47f,.62f,.78f);sun.intensity=.045f;sun.shadows=LightShadows.Soft;sun.shadowStrength=1;RenderSettings.sun=sun;
         }
         static void Architecture() {
             Box("Manor foundation",new Vector3(0,-.24f,0),new Vector3(24.5f,.45f,22.5f),darkOak,null,true);
@@ -145,7 +149,7 @@ namespace VeilHouse {
             }
         }
         static void WallXDoors(float x,float a,float b,float[] doors,Material mat) {
-            float last=a;foreach(float z in doors) {if(z-.8f>last)WallX(x,last,z-.8f,mat);Box("Door lintel",new Vector3(x,3.09f,z),new Vector3(.22f,.82f,1.6f),mat,null,true);last=z+.8f;}
+            float last=a;foreach(float z in doors) {if(z-.8f/HouseLayout.PlanScale>last)WallX(x,last,z-.8f/HouseLayout.PlanScale,mat);Box("Door lintel",new Vector3(x,3.09f,z),new Vector3(.22f,.82f,1.6f),mat,null,true);last=z+.8f/HouseLayout.PlanScale;}
             if(last<b)WallX(x,last,b,mat);
         }
         static void Window(Vector3 p,float yaw,float width) {
@@ -161,7 +165,7 @@ namespace VeilHouse {
                 Cylinder("Curtain tie",new Vector3(side*(width/2+.29f),-.37f,.34f),new Vector3(.44f,.034f,.31f),brass,g);
             }
             var rod=Cylinder("Curtain pole",new Vector3(0,1.18f,.29f),new Vector3(.045f,(width+.9f)/2,.045f),brass,g);rod.transform.localRotation=Quaternion.Euler(0,0,90);
-            Point("Window bounce",new Vector3(0,.1f,.8f),new Color(.42f,.60f,.79f),.52f,5.8f,g);
+            Point("Window bounce",new Vector3(0,.1f,.8f),new Color(.42f,.56f,.79f),.35f,4.0f,g);
             // Frosted branch silhouettes, authored directly against the glass.
             for(int i=0;i<3;i++) {var b=Box("Distant tree branch",new Vector3(-width*.36f+i*width*.30f,-.07f,-.024f),new Vector3(.028f,1.4f,.015f),teal,g);b.transform.localRotation=Quaternion.Euler(0,0,-16+i*17);}
         }
@@ -181,7 +185,7 @@ namespace VeilHouse {
             Cylinder("Pendant stem",new Vector3(0,-.22f,0),new Vector3(.032f,.22f,.032f),brass,g);
             var bulb=Ball("Opal globe",new Vector3(0,-.52f,0),new Vector3(.41f,.42f,.41f),lampGlass,g);bulb.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
             Cylinder("Brass gallery",new Vector3(0,-.33f,0),new Vector3(.39f,.038f,.39f),brass,g);
-            var l=Point("Warm pendant light",new Vector3(0,-.8f,0),new Color(1,.80f,.57f),intensity*1.32f,range,g);
+            var l=Point("Warm pendant light",new Vector3(0,-.8f,0),new Color(1,.80f,.57f),intensity*2.5f,range*.58f,g);
             var h=g.gameObject.AddComponent<HauntedObject>().Initialize(label,HauntKind.Light,true);h.Lamps=new[]{l};h.EmissiveParts=new[]{g.GetChild(2).GetComponent<Renderer>()};ColliderBox(g,new Vector3(0,-.5f,0),new Vector3(.45f,.5f,.45f));
             return h;
         }
@@ -191,7 +195,7 @@ namespace VeilHouse {
             Cylinder("Lamp stem",new Vector3(0,.22f,0),new Vector3(.048f,.19f,.048f),brass,g);
             var shade=LampShade(g,new Vector3(0,.48f,0));
             Cylinder("Shade bottom trim",new Vector3(0,.34f,0),new Vector3(.51f,.016f,.51f),brass,g);
-            var l=Point("Amber reading pool",new Vector3(0,.45f,0),new Color(1,.72f,.39f),.85f,5,g);
+            var l=Point("Amber reading pool",new Vector3(0,.45f,0),new Color(1,.78f,.56f),1.8f,3.2f,g);
             var h=g.gameObject.AddComponent<HauntedObject>().Initialize(label,HauntKind.Light,true);h.Lamps=new[]{l};h.EmissiveParts=new[]{shade.GetComponent<Renderer>()};ColliderBox(g,new Vector3(0,.25f,0),new Vector3(.5f,.55f,.5f));
         }
         static GameObject LampShade(Transform parent,Vector3 position) {
@@ -301,7 +305,7 @@ namespace VeilHouse {
             for(int i=0;i<4;i++){var log=Cylinder("Hearth log",new Vector3(-.55f+i*.35f,.31f,-.2f),new Vector3(.19f,.37f,.19f),darkOak,g);log.transform.localRotation=Quaternion.Euler(80,i*23,80);}
             for(int i=0;i<7;i++)Ball("Banked ember",new Vector3(-.65f+i*.21f,.27f,-.41f),new Vector3(.19f,.08f,.17f),fire,g);
             for(int i=0;i<6;i++)Cylinder("Fire basket bar",new Vector3(-.8f+i*.32f,.34f,-.61f),new Vector3(.025f,.20f,.025f),iron,g);
-            Point("Ember glow",new Vector3(0,.43f,-.64f),new Color(1,.36f,.11f),.9f,4.8f,g);
+            Point("Ember glow",new Vector3(0,.43f,-.64f),new Color(1,.36f,.11f),.24f,2.2f,g);
         }
         static void Television(Vector3 p,float yaw) {
             var g=Group("Ранний телевизионный приёмник",p,null,yaw).transform;
@@ -313,7 +317,7 @@ namespace VeilHouse {
             foreach(float y in new[]{.84f,1.14f}) {var knob=Cylinder("Bakelite tuning knob",new Vector3(.47f,y,-.4f),new Vector3(.11f,.035f,.11f),black,g);knob.transform.localRotation=Quaternion.Euler(90,0,0);}
             for(int i=0;i<5;i++)Box("Speaker grille",new Vector3(-.17f,.62f+i*.025f,-.36f),new Vector3(.77f,.01f,.02f),black,g);
             foreach(float s in new[]{-1f,1f}) {var a=Cylinder("Rabbit-ear aerial",new Vector3(s*.28f,1.72f,0),new Vector3(.017f,.42f,.017f),brass,g);a.transform.localRotation=Quaternion.Euler(0,0,-s*30);}
-            var h=g.gameObject.AddComponent<HauntedObject>().Initialize("Телевизор",HauntKind.Television,false);h.ActiveVisual=active;active.SetActive(false);h.Lamps=new[]{Point("TV green cast",new Vector3(0,1,-.65f),new Color(.45f,.75f,.58f),.7f,4,g)};
+            var h=g.gameObject.AddComponent<HauntedObject>().Initialize("Телевизор",HauntKind.Television,false);h.ActiveVisual=active;active.SetActive(false);h.Lamps=new[]{Point("TV green cast",new Vector3(0,1,-.65f),new Color(.45f,.75f,.58f),.32f,2.1f,g)};
             Photo(new Vector3(p.x,.22f,p.z)+g.forward*-.2f);
         }
         static void Radio(Vector3 p,float yaw=0) {
@@ -522,7 +526,7 @@ namespace VeilHouse {
             // This turns thousands of trim/book/furniture parts into a few dozen draw calls.
             var staticMeshes=new List<MeshFilter>();
             foreach(var mf in root.GetComponentsInChildren<MeshFilter>())if(!mf.GetComponentInParent<HauntedObject>()&&!mf.GetComponent<PlanarMirror>())staticMeshes.Add(mf);
-            Combine(root,staticMeshes,"Architectural surfaces");
+            foreach(var group in staticMeshes.GroupBy(m=>WorldBuilder.RoomAt(m.GetComponent<Renderer>().bounds.center)))Combine(root,group.ToList(),"Architectural surfaces / "+group.Key);
             foreach(var h in HauntedObject.All.Values)if(h.Kind==HauntKind.Prop)Combine(h.transform,new List<MeshFilter>(h.GetComponentsInChildren<MeshFilter>()),"Prop surfaces");
         }
         static void Combine(Transform parent,List<MeshFilter> sources,string label) {
@@ -542,6 +546,6 @@ namespace VeilHouse {
     }
     public sealed class ProceduralWorldAssets : MonoBehaviour {
         public UnityEngine.Object[] Owned;
-        void OnDestroy() {if(Owned!=null)foreach(var asset in Owned)if(asset)UnityEngine.Object.Destroy(asset);}
+        void OnDestroy() {if(Owned!=null)foreach(var asset in Owned)if(asset){if(Application.isPlaying)UnityEngine.Object.Destroy(asset);else UnityEngine.Object.DestroyImmediate(asset);}}
     }
 }

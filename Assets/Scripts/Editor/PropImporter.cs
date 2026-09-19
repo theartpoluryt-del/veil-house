@@ -15,6 +15,7 @@ namespace VeilHouse.Editor {
   public static void RefreshPrefabs(){
    AssetDatabase.Refresh();Directory.CreateDirectory(Root+"Prefabs");AssetDatabase.Refresh();
    ArtMaterial("ArtAtlas","ObjectArt/ArtAtlas");ArtMaterial("Decals","ObjectArt/Decals");ArtMaterial("FamilyPortrait","FamilyPortrait");
+   ArtMaterial("Newsprint","ObjectArt/Newsprint");
    Special("Glow","Linen",new Color(.9f,.65f,.3f));Special("Screen","GlassPatina",new Color(.22f,.43f,.31f));
    int count=0;
    foreach(var file in Directory.GetFiles(Root,"*.fbx",SearchOption.AllDirectories)){
@@ -48,6 +49,7 @@ namespace VeilHouse.Editor {
    string path="Assets/Resources/Materials/"+id+".mat";var m=AssetDatabase.LoadAssetAtPath<Material>(path);
    var original=Resources.Load<Material>("Materials/"+source);
    if(!m){m=new Material(original);AssetDatabase.CreateAsset(m,path);}else m.CopyPropertiesFromMaterial(original);
+   if(id=="Glow")m.shader=Resources.Load<Shader>("VeilLamp");
    m.name=id;m.SetColor("_EmissionColor",emission);m.globalIlluminationFlags=MaterialGlobalIlluminationFlags.BakedEmissive;m.EnableKeyword("_EMISSION");EditorUtility.SetDirty(m);
   }
  }

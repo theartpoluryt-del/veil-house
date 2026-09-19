@@ -185,8 +185,15 @@ def bookcase(w):
         box('Profiled moulding',(0,-.01,z),(width,depth,height),'SmokedOak',.013)
     for k in range(5):
         z=.24+k*.47;box('Bevelled shelf',(0,-.015,z),(w-.09,.48,.045),'SmokedOak',.007)
-        x=-w/2+.13
+        x=-w/2+.13;stacked=False
         while x<w/2-.17:
+            if k==1 and x>-.16 and not stacked:
+                for j in range(3):
+                    mat=['BookRed','BookBlue','Leather'][j]
+                    box('Horizontal book pages',(x+.15,-.045,z+.045+j*.055),(.30,.25,.035),'Linen',.003)
+                    for dz in (-.023,.023):box('Horizontal cloth cover',(x+.15,-.045,z+.045+j*.055+dz),(.32,.265,.008),mat,.003)
+                    box('Horizontal book spine',(x+.15,-.181,z+.045+j*.055),(.32,.015,.047),mat,.004)
+                x+=.37;stacked=True;continue
             bw=rng.uniform(.04,.095);height=rng.uniform(.265,.375);depth=rng.uniform(.22,.33);mat=rng.choice(['BookRed','BookBlue','Leather','Walnut'])
             if rng.random()<.12:x+=.045
             first=len(parts)
@@ -195,7 +202,8 @@ def bookcase(w):
             box('Rounded book spine',(x,-.05-depth/2,z+.025+height/2),(bw,.018,height),mat,.009,3)
             for zz in [z+.08,z+height-.04]:box('Spine foil band',(x,-.061-depth/2,zz),(bw*.82,.002,.004),'Brass',.001,1)
             tilt=rng.uniform(-.035,.035)
-            for ob in parts[first:]:ob.rotation_euler.y=tilt
+            pull=.065 if rng.random()<.16 else rng.uniform(-.006,.01)
+            for ob in parts[first:]:ob.rotation_euler.y=tilt;ob.location.y-=pull
             x+=bw+.012
 records=[];layouts=[]
 def export(name,fn):

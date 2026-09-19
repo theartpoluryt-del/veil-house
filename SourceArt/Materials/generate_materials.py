@@ -36,6 +36,15 @@ def save(name,channel,data,color=False):
     return path
 manifest=[];materials=[]
 def surface(name,title,col,h,rough,meters,metal=0):
+    # Low-contrast, periodic grime affects colour and roughness independently of relief.
+    grime=np.clip(noise(5,5)*.50+noise(37,37)*.32+noise(270,270)*.18,0,1)
+    col=col*(1-.11*grime[:,:,None]**2)
+    rough=np.clip(rough+.22*(grime-.35),.08,.99)
+    if name in ('Plaster','TealPaint','Wallpaper'):rough=np.maximum(rough,.88);h=h*.60
+    if name in ('BurgundyFabric','Linen','Towel','PersianRug'):rough=np.maximum(rough,.93)
+    if name in ('SmokedOak','Parquet','Leather'):rough=np.maximum(rough,.65)
+    micro_ao=np.stack((grime,1-.13*grime**3,np.zeros_like(grime)),axis=2)
+    save(name,'Occlusion',micro_ao)
     dx=(np.roll(h,-1,axis=1)-np.roll(h,1,axis=1))*N/(2*meters[0])
     dy=(np.roll(h,-1,axis=0)-np.roll(h,1,axis=0))*N/(2*meters[1])
     normal=np.stack((-dx,-dy,np.ones_like(dx)),axis=2)

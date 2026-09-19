@@ -38,9 +38,12 @@ namespace VeilHouse.Editor {
     if(mat==null){mat=new Material(Shader.Find("Standard"));AssetDatabase.CreateAsset(mat,target);}
     mat.name=entry.id;mat.color=Color.white;
     mat.SetTexture("_MainTex",maps[0]);mat.SetTexture("_BumpMap",maps[1]);mat.SetTexture("_MetallicGlossMap",maps[2]);
-    mat.SetFloat("_BumpScale",1.8f);mat.SetFloat("_GlossMapScale",.65f);mat.SetFloat("_Glossiness",.15f);mat.SetFloat("_SmoothnessTextureChannel",0);
+    var occlusion=AssetDatabase.LoadAssetAtPath<Texture2D>(TextureRoot+entry.id+"_Occlusion.png");
+    if(!occlusion)throw new Exception("Missing occlusion/grime map "+entry.id);
+    mat.SetTexture("_OcclusionMap",occlusion);mat.SetFloat("_OcclusionStrength",.6f);
+    mat.SetFloat("_BumpScale",entry.id=="Plaster"||entry.id=="Wallpaper"||entry.id=="TealPaint"?.7f:1.1f);mat.SetFloat("_GlossMapScale",.8f);mat.SetFloat("_Glossiness",.15f);mat.SetFloat("_SmoothnessTextureChannel",0);
     mat.EnableKeyword("_NORMALMAP");mat.EnableKeyword("_METALLICGLOSSMAP");
-    bool cloth=entry.id=="BurgundyFabric"||entry.id=="Linen"||entry.id=="PersianRug";
+    bool cloth=entry.id=="BurgundyFabric"||entry.id=="Linen"||entry.id=="PersianRug"||entry.id=="Towel";
     if(cloth){mat.SetFloat("_GlossMapScale",.2f);mat.SetFloat("_Glossiness",.015f);}
     if(entry.id=="Brass")mat.SetFloat("_GlossMapScale",.85f);
     mat.SetFloat("_SpecularHighlights",cloth?0:1);mat.SetFloat("_GlossyReflections",cloth?0:1);
@@ -52,7 +55,7 @@ namespace VeilHouse.Editor {
    Variant("FabricSeam","BurgundyFabric",new Color(.55f,.55f,.55f));
    Variant("BookRed","BurgundyFabric",new Color(.6f,.6f,.6f));
    Variant("BookBlue","TealPaint",new Color(.8f,.8f,.8f));
-   AssetDatabase.SaveAssets();Debug.Log("VH MATERIALS: "+manifest.materials.Length+" PBR materials; "+manifest.materials.Length*3+" verified 2048px textures.");
+   AssetDatabase.SaveAssets();Debug.Log("VH MATERIALS: "+manifest.materials.Length+" PBR materials; "+manifest.materials.Length*4+" verified 2048px textures.");
   }
   static void Variant(string id,string source,Color tint) {
    string path="Assets/Resources/Materials/"+id+".mat";

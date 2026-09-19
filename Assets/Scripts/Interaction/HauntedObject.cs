@@ -59,6 +59,7 @@ namespace VeilHouse {
             targetPosition=homePosition;targetRotation=homeRotation;phase=Id*1.739f;
             return this;
         }
+        public void ResetHomePose(){homePosition=transform.position;homeRotation=transform.rotation;targetPosition=homePosition;targetRotation=homeRotation;}
         public void SetAuthority(bool value) {
             authority=value;
             if(Body) {Body.isKinematic=!value || Holder>=0;Body.interpolation=value?RigidbodyInterpolation.Interpolate:RigidbodyInterpolation.None;}
@@ -144,7 +145,7 @@ namespace VeilHouse {
             lastVisual=Active;
             if(ActiveVisual)ActiveVisual.SetActive(Active);
             if(EmissiveParts!=null)foreach(var r in EmissiveParts)if(r) {
-                if(visualBlock==null)visualBlock=new MaterialPropertyBlock();r.GetPropertyBlock(visualBlock);visualBlock.SetColor("_EmissionColor",Active?new Color(.9f,.64f,.25f)*.8f:Color.black);r.SetPropertyBlock(visualBlock);
+                if(visualBlock==null)visualBlock=new MaterialPropertyBlock();r.GetPropertyBlock(visualBlock);visualBlock.SetColor("_EmissionColor",Active?new Color(1,.72f,.40f)*2.8f:Color.black);r.SetPropertyBlock(visualBlock);
             }
         }
         void OnCollisionEnter(Collision c) {if(authority&&Time.time>1&&c.relativeVelocity.sqrMagnitude>2.5f)Emit("impact");}

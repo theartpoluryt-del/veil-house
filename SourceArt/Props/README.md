@@ -1,6 +1,6 @@
-# Библиотека предметов — версия 0.3
+# Библиотека предметов — версия 0.4
 
-77 оригинальных моделей Blender подключены к Unity и заменяют 224 предмета в доме. Библиотека дополняет 20 моделей мебели из `../Furniture`. Исходники, экспорт и результаты проверок сохранены отдельно для каждой категории.
+95 оригинальных моделей Blender подключены к Unity: прежние 77 заменяют 224 предмета, ещё 18 используются для бытовых деталей и отделки. Библиотека дополняет 20 моделей мебели из `../Furniture`. Исходники, экспорт и результаты проверок сохранены отдельно для каждой категории.
 
 | Категория | Моделей | Состав |
 |---|---:|---|
@@ -35,3 +35,7 @@ blender -b --factory-startup --python-exit-code 1 --python SourceArt/Props/check
 Команда **Veil House → Build Windows prototype** обновляет материалы, мебель и предметы перед сборкой. Blender не требуется для обычной сборки: FBX, PNG и префабы уже включены.
 
 `RuntimeProbe` с аргументом `--vh-probe objects` проверяет упаковку всех моделей, замену физических предметов, открытие/закрытие створок, свет и активные поверхности, сохраняет крупные планы из игры. `--vh-probe gallery` проверяет материалы, мебель и персонажа; `walk` — проходы. Отчёты готовой версии входят в `Verification/Objects-v0.3.0` архива релиза.
+
+## Household — 18 моделей
+
+`build_household.py` создаёт отдельную библиотеку `Household.blend`: Remote, Newspaper, Napkins, Tumbler, Charger, CardboardBox, Shoes, Socket, WallSwitch, Throw, CrumpledPillow, Radiator, Vent, Threshold, FloorLamp, PowerStrip, Pencil, TrimSegment. `draw_newsprint.py` рисует оригинальную вымышленную газету шрифтом Noto Serif. Детали размещает `LivedInHouse`; состояние игровых предметов и сетевые ID сохраняются. Сначала генератор сохраняет FBX каждой модели, затем всю библиотеку. Проверка: `blender -b --factory-startup --python-exit-code 1 --python SourceArt/Props/check_category.py -- Household`.

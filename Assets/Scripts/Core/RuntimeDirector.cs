@@ -20,7 +20,7 @@ namespace VeilHouse {
    I=this; Application.targetFrameRate=90; QualitySettings.vSyncCount=0;
    session=gameObject.AddComponent<GameSession>();
    var cameraObject=new GameObject("Investigation camera"); View=cameraObject.AddComponent<Camera>();
-   View.fieldOfView=72; View.nearClipPlane=.045f; View.farClipPlane=140;
+   View.fieldOfView=65; View.nearClipPlane=.045f; View.farClipPlane=140;
    View.allowHDR=true; View.backgroundColor=new Color(.025f,.045f,.065f);
    AtmosphereEffect.Attach(View);
    View.tag="MainCamera"; cameraObject.AddComponent<AudioListener>();
@@ -86,8 +86,8 @@ namespace VeilHouse {
    }
    if(session.Phase==GamePhase.Menu || session.Phase==GamePhase.Lobby) {
     float sway=Mathf.Sin(Time.time*.09f)*.14f;
-    View.transform.position=new Vector3(-10.5f+sway,1.95f,-9.5f);
-    View.transform.LookAt(new Vector3(-4.5f,1.5f,-3.2f));
+    View.transform.position=HouseLayout.Map(new Vector3(-10.5f+sway,1.75f,-9.5f));
+    View.transform.LookAt(HouseLayout.Map(new Vector3(-4.5f,1.5f,-3.2f)));
    }
    foreach(var p in session.Players) {
     if(p.role==PlayerRole.Ghost || session.Phase==GamePhase.Menu || session.Phase==GamePhase.Lobby) {

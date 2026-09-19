@@ -1,6 +1,6 @@
-# Материалы дома — версия 0.3
+# Материалы дома — версия 0.4
 
-11 оригинальных материалов, по три PNG 2048×2048 на каждый:
+11 оригинальных материалов, по четыре PNG 2048×2048 на каждый:
 
 | Материал | Применение | Размер повторения, м |
 |---|---|---|
@@ -32,4 +32,6 @@ WorldBuilder создаёт UV в метрах для кубических де�
 
 ## Дополнение 0.3
 
-`generate_object_surfaces.py` и `ObjectSurfaces.blend` добавляют 20 наборов: Porcelain, BlueGlaze, Enamel, Iron, Rubber, MotorPaint, Marble, Limestone, HearthBrick, Wax, Paper, Soil, Bark, Leaf, Towel, Speaker, GlassPatina, Copper, Chrome, MirrorSilver. Итого 31 набор и 93 PNG 2048×2048. Дополнительный генератор также запускается в Blender с `--factory-startup`; формат карт совпадает с основной библиотекой.
+`generate_object_surfaces.py` и `ObjectSurfaces.blend` добавляют 20 наборов: Porcelain, BlueGlaze, Enamel, Iron, Rubber, MotorPaint, Marble, Limestone, HearthBrick, Wax, Paper, Soil, Bark, Leaf, Towel, Speaker, GlassPatina, Copper, Chrome, MirrorSilver. Итого 31 набор и 124 PNG 2048×2048. Дополнительный генератор также запускается в Blender с `--factory-startup`; формат карт совпадает с основной библиотекой.
+
+Версия 0.4 добавляет четвёртую карту Occlusion, неоднородную шероховатость и загрязнение во все 31 набор. Формат, освещение и ограничения описаны в [ATMOSPHERE.md](../ATMOSPHERE.md).

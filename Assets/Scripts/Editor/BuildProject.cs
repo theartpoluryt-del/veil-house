@@ -14,7 +14,8 @@ namespace VeilHouse.Editor {
    SurfaceMaterialImporter.RefreshMaterials();
    FurnitureImporter.RefreshPrefabs();
    PropImporter.RefreshPrefabs();
-   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.3.0";
+   if(Environment.GetCommandLineArgs().Contains("--rebake-probes"))LightProbeBaker.Bake();else LightProbeBaker.Ensure();
+   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.4.0";
    PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
    PlayerSettings.resizableWindow=true;PlayerSettings.runInBackground=true;PlayerSettings.visibleInBackground=true;
    PlayerSettings.colorSpace=ColorSpace.Linear;
@@ -30,6 +31,7 @@ namespace VeilHouse.Editor {
    QualitySettings.SetQualityLevel(QualitySettings.names.Length-1,true);QualitySettings.pixelLightCount=12;QualitySettings.shadows=ShadowQuality.All;QualitySettings.shadowResolution=ShadowResolution.High;QualitySettings.shadowDistance=30;QualitySettings.antiAliasing=4;QualitySettings.vSyncCount=0;
    RenderSettings.ambientMode=AmbientMode.Trilight;
    var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+   LightProbeBaker.CleanupScratch();
    var marker=new GameObject("VEIL HOUSE — runtime composition");marker.AddComponent<RuntimeDirector>();
    EditorSceneManager.SaveScene(scene,"Assets/Scenes/VeilHouse.unity");
    EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/Scenes/VeilHouse.unity",true)};

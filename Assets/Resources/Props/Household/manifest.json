@@ -1,0 +1,154 @@
+{
+  "category": "Household",
+  "models": [
+    {
+      "id": "Remote",
+      "triangles": 8636,
+      "materials": [
+        "Rubber",
+        "Iron",
+        "BookRed"
+      ]
+    },
+    {
+      "id": "Newspaper",
+      "triangles": 4848,
+      "materials": [
+        "Paper",
+        "Newsprint"
+      ]
+    },
+    {
+      "id": "Napkins",
+      "triangles": 20480,
+      "materials": [
+        "Linen"
+      ]
+    },
+    {
+      "id": "Tumbler",
+      "triangles": 768,
+      "materials": [
+        "GlassPatina"
+      ]
+    },
+    {
+      "id": "Charger",
+      "triangles": 1660,
+      "materials": [
+        "Enamel",
+        "Chrome",
+        "Rubber"
+      ]
+    },
+    {
+      "id": "CardboardBox",
+      "triangles": 1504,
+      "materials": [
+        "Paper",
+        "Enamel"
+      ]
+    },
+    {
+      "id": "Shoes",
+      "triangles": 2848,
+      "materials": [
+        "Rubber",
+        "Leather",
+        "Linen"
+      ]
+    },
+    {
+      "id": "Socket",
+      "triangles": 4412,
+      "materials": [
+        "Enamel",
+        "Porcelain",
+        "Iron",
+        "Chrome"
+      ]
+    },
+    {
+      "id": "WallSwitch",
+      "triangles": 376,
+      "materials": [
+        "Enamel",
+        "Porcelain"
+      ]
+    },
+    {
+      "id": "Throw",
+      "triangles": 11952,
+      "materials": [
+        "Towel",
+        "Linen"
+      ]
+    },
+    {
+      "id": "CrumpledPillow",
+      "triangles": 1296,
+      "materials": [
+        "Linen",
+        "Towel"
+      ]
+    },
+    {
+      "id": "Radiator",
+      "triangles": 3312,
+      "materials": [
+        "Enamel",
+        "Iron",
+        "Copper"
+      ]
+    },
+    {
+      "id": "Vent",
+      "triangles": 1504,
+      "materials": [
+        "Enamel",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Threshold",
+      "triangles": 188,
+      "materials": [
+        "Walnut"
+      ]
+    },
+    {
+      "id": "FloorLamp",
+      "triangles": 1784,
+      "materials": [
+        "Iron",
+        "Brass",
+        "Linen",
+        "Glow",
+        "Walnut"
+      ]
+    },
+    {
+      "id": "PowerStrip",
+      "triangles": 1316,
+      "materials": [
+        "Enamel",
+        "Iron"
+      ]
+    },
+    {
+      "id": "Pencil",
+      "triangles": 56,
+      "materials": [
+        "Walnut",
+        "Iron"
+      ]
+    },
+    {
+      "id": "TrimSegment",
+      "triangles": 28,
+      "materials": [
+        "Walnut"
+      ]
+    }
+  ]
+}
