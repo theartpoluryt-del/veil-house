@@ -70,10 +70,19 @@ namespace VeilHouse {
   }
   IEnumerator Gallery(){
    D.UI.enabled=false;D.Controller.enabled=false;Cursor.lockState=CursorLockMode.None;
+   string[] surfaces={"SmokedOak","Parquet","Plaster","TealPaint","Wallpaper","Tile","BurgundyFabric","Linen","Leather","Brass","PersianRug"};
+   foreach(var id in surfaces){var m=Resources.Load<Material>("Materials/"+id);Check(m&&m.mainTexture&&m.mainTexture.width==2048&&m.GetTexture("_BumpMap")&&m.GetTexture("_MetallicGlossMap")&&m.IsKeywordEnabled("_NORMALMAP"),"Packaged PBR surface "+id);}
+   Check(HauntedObject.All.Count==129,"Material update preserves 129 interactive objects");
+   string[] furniture={"Sofa","Armchair","DiningChair","Table_2500_1240_490","Bookcase_2600"};
+   foreach(var id in furniture){var model=Resources.Load<GameObject>("Furniture/Prefabs/"+id);Check(model&&model.GetComponentsInChildren<MeshFilter>().Sum(x=>x.sharedMesh.vertexCount)>1000,"Detailed furniture mesh "+id);}
    var positions=new[]{new Vector3(-10.5f,1.95f,-9.5f),new Vector3(-10.5f,2,3),new Vector3(3.2f,1.9f,-9.5f),new Vector3(3.2f,1.9f,-1.5f),new Vector3(8,1.9f,-1.5f),new Vector3(-10,2,5),new Vector3(3,1.9f,5)};
    var targets=new[]{new Vector3(-4.5f,1.4f,-3.2f),new Vector3(-5,1.4f,-1),new Vector3(10,1.4f,-5),new Vector3(6.5f,1.2f,2),new Vector3(11,1.2f,2),new Vector3(-5,1.3f,9),new Vector3(10,1.3f,9)};
    string[] names={"living","kitchen","study","bedroom","bathroom","garage","guest-bedroom"};
    for(int i=0;i<positions.Length;i++){D.View.transform.position=positions[i];D.View.transform.LookAt(targets[i]);yield return new WaitForSeconds(.5f);yield return Capture("room-"+names[i]);}
+   var closePositions=new[]{new Vector3(-8.6f,1.9f,-4),new Vector3(-8.6f,.9f,-7.4f),new Vector3(-3.1f,1.5f,-8.3f),new Vector3(-8,1.3f,.5f)};
+   var closeTargets=new[]{new Vector3(-8.5f,1.8f,-2),new Vector3(-7.7f,.55f,-8.5f),new Vector3(-2.4f,.1f,-7.7f),new Vector3(-7.2f,.05f,1.5f)};
+   string[] closeNames={"wallpaper","upholstery","parquet","tile"};
+   for(int i=0;i<closePositions.Length;i++){D.View.transform.position=closePositions[i];D.View.transform.LookAt(closeTargets[i]);yield return new WaitForSeconds(.5f);yield return Capture("material-"+closeNames[i]);}
    var root=new GameObject("Avatar visual check");root.transform.position=new Vector3(0,0,-3);var a=DetectiveAvatar.Create(root.transform,1);Check(a.HasHumanoidRig,"Valid humanoid avatar");D.View.transform.position=new Vector3(0,1.15f,0);D.View.transform.LookAt(root.transform.position+Vector3.up*.95f);root.transform.rotation=Quaternion.Euler(0,0,0);a.Animate(0,false,false);yield return new WaitForSeconds(.5f);yield return Capture("detective-model");
   }
   IEnumerator WalkHouse(){

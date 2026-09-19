@@ -11,7 +11,9 @@ namespace VeilHouse.Editor {
  public static class BuildProject {
   [MenuItem("Veil House/Build Windows prototype")]
   public static void Build() {
-   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.1.0";
+   SurfaceMaterialImporter.RefreshMaterials();
+   FurnitureImporter.RefreshPrefabs();
+   PlayerSettings.companyName="Veil House Studio";PlayerSettings.productName="Дом по ту сторону";PlayerSettings.bundleVersion="0.2.0";
    PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
    PlayerSettings.resizableWindow=true;PlayerSettings.runInBackground=true;PlayerSettings.visibleInBackground=true;
    PlayerSettings.colorSpace=ColorSpace.Linear;

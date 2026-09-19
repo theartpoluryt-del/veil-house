@@ -30,6 +30,7 @@ namespace VeilHouse {
    vignette=new Texture2D(128,72,TextureFormat.RGBA32,false);for(int y=0;y<72;y++)for(int x=0;x<128;x++){float xx=(x-63.5f)/64, yy=(y-35.5f)/36;float a=Mathf.Clamp01((xx*xx+yy*yy-.4f)*.38f);vignette.SetPixel(x,y,new Color(.015f,.028f,.034f,a));}vignette.Apply();
   }
   void Update() {
+   if(RuntimeProbe.Running)return;
    if(S.Phase!=GamePhase.Investigation)return;
    if(Input.GetKeyDown(KeyCode.Tab)&&!ChatOpen){JournalOpen=!JournalOpen;PauseOpen=HelpOpen=false;}
    if(Input.GetKeyDown(KeyCode.F1)){HelpOpen=!HelpOpen;PauseOpen=JournalOpen=false;}
@@ -37,6 +38,8 @@ namespace VeilHouse {
    if(Input.GetKeyDown(KeyCode.Return)&&!PauseOpen&&!JournalOpen&&!HelpOpen&&S.LocalPlayer!=null&&S.LocalPlayer.role==PlayerRole.Detective){if(ChatOpen){if(!string.IsNullOrWhiteSpace(chat))S.SendChat(chat);chat="";ChatOpen=false;}else ChatOpen=true;}
   }
   void OnGUI() {
+   // Automated visual probes still render the UI, but never consume desktop input.
+   if(RuntimeProbe.Running&&Event.current.type!=EventType.Layout&&Event.current.type!=EventType.Repaint)return;
    Init();GUI.matrix=Matrix4x4.TRS(Vector3.zero,Quaternion.identity,new Vector3(Screen.width/W,Screen.height/H,1));
    GUI.color=Color.white;GUI.DrawTexture(new Rect(0,0,W,H),vignette);
    switch(S.Phase){case GamePhase.Menu:Menu();break;case GamePhase.Lobby:Lobby();break;case GamePhase.Investigation:Hud();break;case GamePhase.Results:Results();break;}
@@ -81,7 +84,7 @@ namespace VeilHouse {
     if(Button(new Rect(680,550,450,45),"Назад"))training=false;
    }
    Text(new Rect(66,849,900,25),"2–7 ИГРОКОВ    ·    КООПЕРАТИВНОЕ РАССЛЕДОВАНИЕ    ·    UNITY 6",12,muted);
-   Text(new Rect(1190,840,344,30),"ПРОТОТИП  /  01",13,gold,TextAnchor.MiddleRight);
+   Text(new Rect(1190,840,344,30),"ПРОТОТИП  /  "+Application.version,13,gold,TextAnchor.MiddleRight);
    if(!joining&&!training&&!string.IsNullOrWhiteSpace(S.Status))Text(new Rect(650,770,650,46),S.Status,17,cream);
    if(HelpOpen)Help();
   }

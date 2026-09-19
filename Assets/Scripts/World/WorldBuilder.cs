@@ -7,7 +7,8 @@ namespace VeilHouse {
     /// <summary>Original, self-contained manor set. All geometry and textile/wood surfaces are authored in code.</summary>
     public static class WorldBuilder {
         static Transform root;
-        static Material oak,darkOak,cream,teal,trim,brass,black,burgundy,linen,glass,ceramic,iron,leather,tile,wallpaper,rugMat,water,screen,fire,green,bookRed,bookBlue,paper,lampGlass;
+        static Material oak,darkOak,parquet,cream,teal,trim,brass,black,burgundy,linen,glass,ceramic,iron,leather,tile,wallpaper,rugMat,water,screen,fire,green,bookRed,bookBlue,paper,lampGlass;
+        static Dictionary<Material,Vector2> surfaceMeters;
         static System.Random random;
         static int propCount;
         static List<UnityEngine.Object> ownedAssets;
@@ -21,35 +22,38 @@ namespace VeilHouse {
             return p.x<7?"Спальня хозяина":"Ванная";
         }
         public static GameObject Build() {
-            HauntedObject.ResetRegistry();propCount=0;random=new System.Random(1927);ownedAssets=new List<UnityEngine.Object>();
+            HauntedObject.ResetRegistry();propCount=0;random=new System.Random(1927);ownedAssets=new List<UnityEngine.Object>();surfaceMeters=new Dictionary<Material,Vector2>();
             root=new GameObject("VEIL HOUSE · Дом по ту сторону").transform;
             MakeMaterials();Atmosphere();Architecture();LivingRoom();Kitchen();Garage();Study();Bedroom();Bath();GuestBedroom();Hall();Garden();
             OptimizeGeometry();root.gameObject.AddComponent<ProceduralWorldAssets>().Owned=ownedAssets.ToArray();
             return root.gameObject;
         }
         static void MakeMaterials() {
-            oak=Mat("Smoked honey oak",new Color(.49f,.30f,.16f),.25f);oak.mainTexture=Texture("wood",128);
-            darkOak=Mat("Walnut",new Color(.26f,.15f,.09f),.33f);darkOak.mainTexture=oak.mainTexture;
-            cream=Mat("Limestone plaster",new Color(.71f,.69f,.60f),.03f);cream.mainTexture=Texture("plaster",64);
-            teal=Mat("Deep teal paint",new Color(.20f,.35f,.35f),.12f);
+            oak=Surface("SmokedOak",1,2);darkOak=Surface("SmokedOak",1,2,new Color(.57f,.49f,.40f));
+            parquet=Surface("Parquet",1.2f,2.4f);
+            cream=Surface("Plaster",1,1);teal=Surface("TealPaint",1,1);
             trim=Mat("Aged ivory joinery",new Color(.81f,.77f,.63f),.2f);
-            brass=Mat("Brushed brass",new Color(.66f,.43f,.16f),.68f,.68f);
+            brass=Surface("Brass",.25f,.25f);
             black=Mat("Charcoal",new Color(.035f,.04f,.04f),.25f);
-            burgundy=Mat("Oxblood upholstery",new Color(.34f,.082f,.11f),.05f);burgundy.mainTexture=Texture("fabric",64);
-            linen=Mat("Cream linen",new Color(.81f,.75f,.59f),.04f);linen.mainTexture=Texture("fabric",64);
-            leather=Mat("Bottle green leather",new Color(.08f,.19f,.16f),.35f);
+            burgundy=Surface("BurgundyFabric",.25f,.25f);linen=Surface("Linen",.25f,.25f);
+            leather=Surface("Leather",.5f,.5f);
             glass=Mat("Moonlit leaded glass",new Color(.15f,.28f,.34f),.86f,.22f);glass.EnableKeyword("_EMISSION");glass.SetColor("_EmissionColor",new Color(.13f,.24f,.31f)*.7f);
             ceramic=Mat("Glazed porcelain",new Color(.80f,.81f,.73f),.73f);
             iron=Mat("Blackened iron",new Color(.11f,.13f,.13f),.48f,.62f);
-            tile=Mat("Encaustic tile",Color.white,.3f);tile.mainTexture=Texture("tile",128);
-            wallpaper=Mat("Botanical wallpaper",new Color(.62f,.67f,.53f),.02f);wallpaper.mainTexture=Texture("wallpaper",128);wallpaper.mainTextureScale=new Vector2(3,2);
-            rugMat=Mat("Woven Persian rug",Color.white,.02f);rugMat.mainTexture=Texture("rug",256);
+            tile=Surface("Tile",.8f,.8f);wallpaper=Surface("Wallpaper",.6f,1.2f);
+            rugMat=Surface("PersianRug",3,5);surfaceMeters.Remove(rugMat); // Whole carpet layout, once per rug.
             water=Mat("Falling water",new Color(.3f,.62f,.67f),.9f,.2f);water.EnableKeyword("_EMISSION");water.SetColor("_EmissionColor",new Color(.04f,.12f,.16f));
             screen=Mat("Television phosphor",new Color(.58f,.72f,.63f),.35f);screen.mainTexture=Texture("screen",64);screen.EnableKeyword("_EMISSION");screen.SetColor("_EmissionColor",new Color(.35f,.52f,.40f)*1.5f);
             fire=Mat("Living embers",new Color(.9f,.3f,.07f),.2f);fire.EnableKeyword("_EMISSION");fire.SetColor("_EmissionColor",new Color(1,.18f,.025f)*2);
             lampGlass=Mat("Illuminated opal and silk",new Color(.94f,.83f,.61f),.18f);lampGlass.EnableKeyword("_EMISSION");lampGlass.SetColor("_EmissionColor",new Color(1,.73f,.38f)*1.05f);
             green=Mat("Broadleaf",new Color(.10f,.24f,.13f),.1f);
             bookRed=Mat("Clothbound sienna",new Color(.49f,.18f,.12f),.1f);bookBlue=Mat("Clothbound navy",new Color(.12f,.23f,.28f),.1f);paper=Mat("Old paper",new Color(.79f,.74f,.59f),.02f);
+        }
+        static Material Surface(string id,float width,float height,Color? tint=null) {
+            var source=Resources.Load<Material>("Materials/"+id);
+            if(!source)throw new InvalidOperationException("Missing surface "+id+". Run Veil House/Refresh surface materials.");
+            var mat=new Material(source);mat.name=id;mat.color=tint??Color.white;
+            ownedAssets.Add(mat);surfaceMeters.Add(mat,new Vector2(width,height));return mat;
         }
         static Material Mat(string name,Color color,float smooth=0,float metal=0) {var m=new Material(Shader.Find("Standard"));m.name=name;m.color=color;m.SetFloat("_Glossiness",smooth);m.SetFloat("_Metallic",metal);ownedAssets.Add(m);return m;}
         static Texture2D Texture(string kind,int size) {
@@ -79,6 +83,20 @@ namespace VeilHouse {
         static GameObject Part(string name,PrimitiveType shape,Vector3 position,Vector3 scale,Material mat,Transform parent=null,bool collider=false,Vector3? rotation=null) {
             var o=GameObject.CreatePrimitive(shape);o.name=name;o.transform.SetParent(parent?parent:root,false);o.transform.localPosition=position;o.transform.localScale=scale;if(rotation.HasValue)o.transform.localEulerAngles=rotation.Value;
             o.GetComponent<Renderer>().sharedMaterial=mat;
+            if(shape==PrimitiveType.Cube&&surfaceMeters.TryGetValue(mat,out var meters)) {
+                // Project UVs in metres before combining meshes; all PBR channels share the same UVs.
+                var mesh=UnityEngine.Object.Instantiate(o.GetComponent<MeshFilter>().sharedMesh);
+                mesh.name=name+" metric UV";var vertices=mesh.vertices;var normals=mesh.normals;var uv=new Vector2[vertices.Length];
+                for(int i=0;i<vertices.Length;i++) {
+                    var p=Vector3.Scale(vertices[i],scale);var n=normals[i];Vector2 coord;
+                    if(Mathf.Abs(n.y)>.5f)coord=new Vector2(p.x,p.z);
+                    else if(Mathf.Abs(n.x)>.5f)coord=new Vector2(p.z,p.y);
+                    else coord=new Vector2(p.x,p.y);
+                    if((mat==oak||mat==darkOak)&&Mathf.Abs(n.y)<.5f&&((Mathf.Abs(n.x)>.5f?scale.z:scale.x)>scale.y))coord=new Vector2(coord.y,coord.x);
+                    uv[i]=new Vector2(coord.x/meters.x,coord.y/meters.y);
+                }
+                mesh.uv=uv;mesh.RecalculateTangents();ownedAssets.Add(mesh);o.GetComponent<MeshFilter>().sharedMesh=mesh;
+            }
             if(!collider){var c=o.GetComponent<Collider>();if(c){c.enabled=false;UnityEngine.Object.Destroy(c);}}
             return o;
         }
@@ -96,10 +114,10 @@ namespace VeilHouse {
         }
         static void Architecture() {
             Box("Manor foundation",new Vector3(0,-.24f,0),new Vector3(24.5f,.45f,22.5f),darkOak,null,true);
-            Floor("Gallery",0,0,4,22,oak);Floor("Drawing room",-7,-6.5f,10,9,oak);Floor("Kitchen",-7,1,10,6,tile);Floor("Motor house",-7,7.5f,10,7,cream);Floor("Study",7,-7.5f,10,7,oak);Floor("Master bedroom",4.5f,0,5,8,oak);Floor("Bathroom",9.5f,0,5,8,tile);Floor("Guest bedroom",7,7.5f,10,7,oak);
+            Floor("Gallery",0,0,4,22,parquet);Floor("Drawing room",-7,-6.5f,10,9,parquet);Floor("Kitchen",-7,1,10,6,tile);Floor("Motor house",-7,7.5f,10,7,cream);Floor("Study",7,-7.5f,10,7,parquet);Floor("Master bedroom",4.5f,0,5,8,parquet);Floor("Bathroom",9.5f,0,5,8,tile);Floor("Guest bedroom",7,7.5f,10,7,parquet);
             WallZ(-11,-12,12,cream);WallZ(11,-12,12,cream);WallX(-12,-11,11,cream);WallX(12,-11,11,cream);
             WallXDoors(-2,-11,11,new float[]{-6.5f,1,7.5f},teal);WallXDoors(2,-11,11,new float[]{-7.5f,0,7.5f},teal);
-            WallZ(-2,-12,-2,cream);WallZ(4,-12,-2,cream);WallZ(-4,2,12,cream);WallZ(4,2,12,cream);WallXDoors(7,-4,4,new float[]{0},wallpaper);
+            WallZ(-2,-12,-2,wallpaper);WallZ(4,-12,-2,cream);WallZ(-4,2,12,wallpaper);WallZ(4,2,12,cream);WallXDoors(7,-4,4,new float[]{0},wallpaper);
             Box("Ceiling",new Vector3(0,3.6f,0),new Vector3(24.2f,.17f,22.2f),cream,null,true);
             for(int i=0;i<3;i++){Window(new Vector3(-11.86f,1.95f,-8+i*7.4f),90,2.6f);Window(new Vector3(11.86f,1.95f,-7.5f+i*7.4f),-90,2.6f);}
             Window(new Vector3(-6.6f,1.95f,-10.86f),0,3.5f);Window(new Vector3(6.6f,1.95f,-10.86f),0,3.2f);Window(new Vector3(7,1.95f,10.86f),180,3.2f);
@@ -110,7 +128,7 @@ namespace VeilHouse {
             foreach(float x in new float[]{-.64f,.64f}){Box("Recessed entrance panel",new Vector3(x,1.55f,.08f),new Vector3(1.0f,2.1f,.045f),oak,entry.transform);Cylinder("Brass pull",new Vector3(x*.24f,1.23f,.16f),new Vector3(.035f,.17f,.035f),brass,entry.transform);}
             for(int z=-9;z<=9;z+=6)CeilingLamp(new Vector3(0,3.38f,z),"Люстра галереи",6.7f,.72f);
         }
-        static void Floor(string name,float x,float z,float w,float d,Material mat) {var b=Box(name+" floor",new Vector3(x,.025f,z),new Vector3(w,.06f,d),mat,null,true);var m=new Material(mat);ownedAssets.Add(m);m.mainTextureScale=new Vector2(w/3,d/3);b.GetComponent<Renderer>().sharedMaterial=m;}
+        static void Floor(string name,float x,float z,float w,float d,Material mat) {Box(name+" floor",new Vector3(x,.025f,z),new Vector3(w,.06f,d),mat,null,true);}
         static void WallX(float x,float a,float b,Material mat) {Wall(new Vector3(x,1.75f,(a+b)/2),new Vector3(.22f,3.5f,b-a),mat);}
         static void WallZ(float z,float a,float b,Material mat) {Wall(new Vector3((a+b)/2,1.75f,z),new Vector3(b-a,3.5f,.22f),mat);}
         static void Wall(Vector3 at,Vector3 size,Material mat) {
@@ -182,35 +200,25 @@ namespace VeilHouse {
             var obj=Group("Pleated silk shade",position,parent);obj.AddComponent<MeshFilter>().sharedMesh=mesh;var r=obj.AddComponent<MeshRenderer>();r.sharedMaterial=lampGlass;r.shadowCastingMode=ShadowCastingMode.Off;return obj;
         }
         static void Rug(Vector3 p,float w,float d,float yaw=0) {var g=Box("Persian wool carpet",p+Vector3.up*.065f,new Vector3(w,.016f,d),rugMat);g.transform.localRotation=Quaternion.Euler(0,yaw,0);for(int end=-1;end<=1;end+=2)for(int i=0;i<(int)(w/.10f);i++)Box("Carpet fringe",p+new Vector3(-w/2+i*.1f,.068f,end*(d/2+.065f)),new Vector3(.025f,.009f,.17f),linen);}
+        static void Furniture(string id,Transform parent) {
+            var prefab=Resources.Load<GameObject>("Furniture/Prefabs/"+id);
+            if(!prefab)throw new InvalidOperationException("Missing furniture prefab "+id);
+            var model=UnityEngine.Object.Instantiate(prefab,parent,false);model.name="Authored furniture / "+id;
+        }
         static Transform Table(Vector3 p,float w,float d,string name,float height=.78f,float yaw=0,Material material=null) {
-            var g=Group(name,p,null,yaw).transform;var m=material?material:oak;
-            Box("Rounded table top",new Vector3(0,height,0),new Vector3(w,.095f,d),m,g,true);
-            Box("Table apron",new Vector3(0,height-.12f,0),new Vector3(w-.14f,.17f,d-.14f),darkOak,g);
-            foreach(float x in new[]{-1f,1f})foreach(float z in new[]{-1f,1f}) {
-                Cylinder("Turned leg",new Vector3(x*(w/2-.13f),height*.46f,z*(d/2-.13f)),new Vector3(.085f,height*.45f,.085f),m,g);
-                Ball("Leg turned bead",new Vector3(x*(w/2-.13f),height*.66f,z*(d/2-.13f)),new Vector3(.14f,.18f,.14f),m,g);
-            }
+            var g=Group(name,p,null,yaw).transform;
+            string id="Table_"+Mathf.RoundToInt(w*1000)+"_"+Mathf.RoundToInt(d*1000)+"_"+Mathf.RoundToInt(height*1000);
+            Furniture(id,g);
+            ColliderBox(g,new Vector3(0,height,0),new Vector3(w,.095f,d));
             ColliderBox(g,new Vector3(0,height/2,0),new Vector3(w*.91f,height,d*.87f));return g;
         }
         static Transform Chair(Vector3 p,float yaw=0,Material cloth=null) {
-            var g=Group("Upholstered dining chair",p,null,yaw).transform;var c=cloth?cloth:leather;
-            Box("Padded seat",new Vector3(0,.48f,0),new Vector3(.56f,.13f,.56f),c,g);
-            Box("Seat frame",new Vector3(0,.38f,0),new Vector3(.59f,.08f,.58f),darkOak,g);
-            foreach(float x in new[]{-.23f,.23f})foreach(float z in new[]{-.23f,.23f})Cylinder("Chair leg",new Vector3(x,.2f,z),new Vector3(.065f,.21f,.065f),darkOak,g);
-            Box("Chair back frame",new Vector3(0,.88f,.25f),new Vector3(.60f,.78f,.10f),darkOak,g);Box("Tufted chair back",new Vector3(0,.92f,.18f),new Vector3(.46f,.55f,.08f),c,g);
-            foreach(float x in new[]{-.11f,.11f})Ball("Upholstery button",new Vector3(x,.92f,.125f),new Vector3(.025f,.025f,.013f),brass,g);
+            var g=Group("Upholstered dining chair",p,null,yaw).transform;Furniture("DiningChair",g);
             ColliderBox(g,new Vector3(0,.6f,0),new Vector3(.61f,1.2f,.61f));return g;
         }
         static void Sofa(Vector3 p,float yaw,bool single=false) {
-            float w=single?1.15f:2.9f;var g=Group(single?"Club armchair":"Chesterfield sofa",p,null,yaw).transform;
-            Box("Upholstered plinth",new Vector3(0,.35f,0),new Vector3(w,.42f,1.04f),burgundy,g);
-            for(int i=0;i<(single?1:3);i++) {float x=single?0:(i-1)*.82f;Ball("Rounded seat cushion",new Vector3(x,.6f,-.09f),new Vector3(single?.91f:.93f,.26f,.91f),burgundy,g);}
-            Ball("Rolled back",new Vector3(0,.94f,.43f),new Vector3(w+.02f,.86f,.41f),burgundy,g);
-            foreach(float side in new[]{-1f,1f}) {
-                var a=Part("Rolled leather arm",PrimitiveType.Capsule,new Vector3(side*(w/2),.73f,0),new Vector3(.37f,.57f,.37f),burgundy,g);a.transform.localRotation=Quaternion.Euler(90,0,0);
-                foreach(float z in new[]{-.37f,.38f})Ball("Bun foot",new Vector3(side*(w/2-.18f),.12f,z),new Vector3(.20f,.19f,.20f),darkOak,g);
-            }
-            for(float x=-w*.35f;x<w*.4f;x+=.35f)Ball("Deep button",new Vector3(x,.94f,.19f),new Vector3(.046f,.046f,.03f),brass,g);
+            float w=single?1.15f:2.9f;var g=Group(single?"Club armchair":"Tailored parlor sofa",p,null,yaw).transform;
+            Furniture(single?"Armchair":"Sofa",g);
             ColliderBox(g,new Vector3(0,.56f,0),new Vector3(w+.25f,1.12f,1.04f));
         }
         static Transform Cabinet(Vector3 p,string label,float width=1.5f,float height=1.2f,float yaw=0) {
@@ -225,10 +233,9 @@ namespace VeilHouse {
             var h=g.gameObject.AddComponent<HauntedObject>().Initialize(label,HauntKind.Cabinet);h.Hinge=hinge;h.OpenAngle=105;return g;
         }
         static void Bookcase(Vector3 p,float yaw=0,float width=2.4f) {
-            var g=Group("Library bookcase",p,null,yaw).transform;Box("Bookcase back",new Vector3(0,1.3f,.18f),new Vector3(width,2.6f,.08f),darkOak,g);
-            foreach(float s in new[]{-1f,1f})Box("Fluted bookcase stile",new Vector3(s*width/2,1.3f,0),new Vector3(.12f,2.6f,.46f),oak,g,true);
-            for(int k=0;k<5;k++){float y=.16f+k*.56f;Box("Bookshelf",new Vector3(0,y,0),new Vector3(width,.07f,.47f),oak,g);for(int b=0;b<12;b++){float x=-width*.44f+b*width*.074f;float h=.30f+(float)random.NextDouble()*.12f;Material m=b%3==0?bookBlue:b%3==1?bookRed:leather;Box("Bound volume",new Vector3(x,y+h/2+.04f,-.02f),new Vector3(.095f,h,.28f),m,g);Box("Gold spine band",new Vector3(x,y+h*.8f,-.165f),new Vector3(.099f,.018f,.008f),brass,g);}}
-            Box("Bookcase crown",new Vector3(0,2.69f,0),new Vector3(width+.23f,.16f,.57f),darkOak,g);ColliderBox(g,new Vector3(0,1.35f,0),new Vector3(width,2.7f,.5f));
+            var g=Group("Library bookcase",p,null,yaw).transform;
+            Furniture("Bookcase_"+Mathf.RoundToInt(width*1000),g);
+            ColliderBox(g,new Vector3(0,1.35f,0),new Vector3(width,2.7f,.5f));
         }
         static void Painting(Vector3 p,float width,float height,float yaw=0,bool portrait=false) {
             var g=Group(portrait?"Family portrait, 1924":"Framed landscape",p,null,yaw).transform;Material imageMat=Mat("Oil canvas",new Color(.26f,.33f,.29f),.04f);

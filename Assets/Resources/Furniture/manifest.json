@@ -1,0 +1,104 @@
+{
+  "models": [
+    {
+      "id": "Sofa",
+      "triangles": 46372,
+      "meshes": 4
+    },
+    {
+      "id": "Armchair",
+      "triangles": 22852,
+      "meshes": 3
+    },
+    {
+      "id": "DiningChair",
+      "triangles": 12472,
+      "meshes": 3
+    },
+    {
+      "id": "Table_2500_1240_490",
+      "triangles": 3784,
+      "meshes": 2
+    },
+    {
+      "id": "Table_760_760_710",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_1650_560_820",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_3400_1650_810",
+      "triangles": 4444,
+      "meshes": 3
+    },
+    {
+      "id": "Table_3200_1350_820",
+      "triangles": 4256,
+      "meshes": 3
+    },
+    {
+      "id": "Table_850_850_780",
+      "triangles": 3880,
+      "meshes": 3
+    },
+    {
+      "id": "Table_700_700_650",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_1500_580_840",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_600_600_470",
+      "triangles": 3408,
+      "meshes": 2
+    },
+    {
+      "id": "Table_720_680_670",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_2300_800_830",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_720_720_620",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Table_3200_900_910",
+      "triangles": 3880,
+      "meshes": 3
+    },
+    {
+      "id": "Table_1200_540_790",
+      "triangles": 3692,
+      "meshes": 3
+    },
+    {
+      "id": "Bookcase_2600",
+      "triangles": 87348,
+      "meshes": 7
+    },
+    {
+      "id": "Bookcase_3200",
+      "triangles": 110148,
+      "meshes": 7
+    },
+    {
+      "id": "Bookcase_3700",
+      "triangles": 121548,
+      "meshes": 7
+    }
+  ]
+}
