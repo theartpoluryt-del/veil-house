@@ -24,6 +24,7 @@ namespace VeilHouse {
         Quaternion targetRotation,homeRotation;
         float shakeUntil,knockUntil,phase,shutUntil;
         bool lastVisual;
+        bool VisualActive=>Active&&((Kind!=HauntKind.Light&&Kind!=HauntKind.Television)||Time.time>=shutUntil);
         MaterialPropertyBlock visualBlock;
         static int nextId;
 
@@ -132,7 +133,7 @@ namespace VeilHouse {
                     if(Kind==HauntKind.Television)Lamps[i].intensity=.7f+.18f*Mathf.Sin(Time.time*22+phase);
                 }
             }
-            if(lastVisual!=Active)RefreshVisuals();
+            if(lastVisual!=VisualActive)RefreshVisuals();
             if(ActiveVisual) {
                 if(Kind==HauntKind.Water)ActiveVisual.transform.localScale=new Vector3(.027f,.16f+Mathf.Sin(Time.time*25)*.01f,.027f);
                 else if(Kind==HauntKind.Television) {
@@ -142,10 +143,10 @@ namespace VeilHouse {
             }
         }
         void RefreshVisuals() {
-            lastVisual=Active;
-            if(ActiveVisual)ActiveVisual.SetActive(Active);
+            lastVisual=VisualActive;
+            if(ActiveVisual)ActiveVisual.SetActive(lastVisual);
             if(EmissiveParts!=null)foreach(var r in EmissiveParts)if(r) {
-                if(visualBlock==null)visualBlock=new MaterialPropertyBlock();r.GetPropertyBlock(visualBlock);visualBlock.SetColor("_EmissionColor",Active?new Color(1,.72f,.40f)*2.8f:Color.black);r.SetPropertyBlock(visualBlock);
+                if(visualBlock==null)visualBlock=new MaterialPropertyBlock();r.GetPropertyBlock(visualBlock);visualBlock.SetColor("_EmissionColor",lastVisual?new Color(1,.72f,.40f)*2.8f:Color.black);r.SetPropertyBlock(visualBlock);
             }
         }
         void OnCollisionEnter(Collision c) {if(authority&&Time.time>1&&c.relativeVelocity.sqrMagnitude>2.5f)Emit("impact");}

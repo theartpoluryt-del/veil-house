@@ -170,6 +170,11 @@ namespace VeilHouse {
    }
    effect.AmbientOcclusion=false;effect.ContactShadows=false;yield return LightingShot("living-no-ao-reference");effect.AmbientOcclusion=true;effect.ContactShadows=true;
    var switchable=HauntedObject.All.Values.Where(h=>h.Kind==HauntKind.Light||h.Kind==HauntKind.Television).ToArray();
+   var lampObjects=switchable.Where(h=>h.Kind==HauntKind.Light).ToArray();
+   foreach(var h in lampObjects)h.SuppressLight(1);yield return new WaitForSeconds(.2f);
+   Check(lampObjects.All(h=>h.Active&&h.Lamps.All(l=>!l.enabled)&&h.EmissiveParts.All(r=>EmissionState(r,false))),"Temporary blackout extinguishes lamps and their visible emission");
+   yield return new WaitForSeconds(1.1f);
+   Check(lampObjects.All(h=>h.Lamps.All(l=>l.enabled)&&h.EmissiveParts.All(r=>EmissionState(r,true))),"Lamp light and emission recover after temporary blackout");
    foreach(var h in switchable)h.ServerAct(new InteractionRequest{objectId=h.Id,action="close"});
    yield return new WaitForSeconds(4);yield return LightingShot("living-lights-off");
    D.Controller.Flashlight.enabled=true;yield return LightingShot("living-flashlight");
